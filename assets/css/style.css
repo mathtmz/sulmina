@@ -157,6 +157,7 @@ p { margin: 0 0 1em; }
 }
 .logo-img { height: 30px; width: auto; display: block; }
 .site-footer .logo-img { height: 26px; }
+.site-footer .logo-img-full { height: 62px; }
 .nav-principal {
   display: flex;
   gap: 32px;
@@ -264,6 +265,7 @@ p { margin: 0 0 1em; }
   text-align: center;
 }
 .diferencial-item svg { color: var(--terracota); margin-bottom: 12px; }
+.diferencial-icon { height: 30px; width: auto; margin: 0 auto 12px; display: block; }
 .diferencial-item strong { display: block; color: var(--cafe-torrado); margin-bottom: 4px; }
 
 @media (max-width: 720px) {
