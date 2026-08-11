@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — SULMINA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L8 9l4 6 3-4 7 9H2z"/></svg>
+      SULMINA
+    </a>
+    <div class="header-acoes">
+      <span style="font-size:14px; opacity:.7;">Compra 100% segura</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="secao bg-branco">
+    <div class="container" style="max-width:900px;">
+      <h1>Finalizar compra</h1>
+
+      <div class="passos-checkout">
+        <div class="passo-checkout ativo"><span class="bolinha">1</span> Entrega</div>
+        <div class="passo-checkout"><span class="bolinha">2</span> Pagamento</div>
+        <div class="passo-checkout"><span class="bolinha">3</span> Revisão</div>
+      </div>
+
+      <form data-prototipo data-mensagem-sucesso="Pedido confirmado! (protótipo — sem cobrança real)">
+
+        <h2>Dados de entrega</h2>
+        <div class="campo-linha">
+          <div class="campo"><label>Nome completo</label><input type="text" required></div>
+          <div class="campo"><label>CPF</label><input type="text" required></div>
+        </div>
+        <div class="campo-linha">
+          <div class="campo"><label>E-mail</label><input type="email" required></div>
+          <div class="campo"><label>Telefone / WhatsApp</label><input type="tel" required></div>
+        </div>
+        <div class="campo-linha">
+          <div class="campo" style="flex:0 0 160px;"><label>CEP</label><input type="text" required></div>
+          <div class="campo"><label>Endereço</label><input type="text" required></div>
+        </div>
+        <div class="campo-linha">
+          <div class="campo" style="flex:0 0 120px;"><label>Número</label><input type="text" required></div>
+          <div class="campo"><label>Complemento</label><input type="text"></div>
+          <div class="campo"><label>Bairro</label><input type="text" required></div>
+        </div>
+        <div class="campo-linha">
+          <div class="campo"><label>Cidade</label><input type="text" required></div>
+          <div class="campo" style="flex:0 0 100px;"><label>UF</label><input type="text" required></div>
+        </div>
+
+        <h2 style="margin-top:40px;">Forma de pagamento</h2>
+        <label class="opcao-pagamento">
+          <input type="radio" name="pagamento" checked>
+          <span>Cartão de crédito</span>
+        </label>
+        <label class="opcao-pagamento">
+          <input type="radio" name="pagamento">
+          <span>Pix</span>
+        </label>
+        <label class="opcao-pagamento">
+          <input type="radio" name="pagamento">
+          <span>Boleto bancário</span>
+        </label>
+
+        <div class="campo-linha" style="margin-top:20px;">
+          <div class="campo"><label>Número do cartão</label><input type="text" placeholder="0000 0000 0000 0000"></div>
+          <div class="campo" style="flex:0 0 100px;"><label>Validade</label><input type="text" placeholder="MM/AA"></div>
+          <div class="campo" style="flex:0 0 100px;"><label>CVV</label><input type="text" placeholder="123"></div>
+        </div>
+
+        <div class="resumo-pedido" style="margin-top:32px;">
+          <h3>Resumo do pedido</h3>
+          <div class="linha-resumo"><span>Café Terras Altas × 1</span><span>R$ 42,90</span></div>
+          <div class="linha-resumo"><span>Café Raízes de Machado × 1</span><span>R$ 39,90</span></div>
+          <div class="linha-resumo"><span>Frete</span><span>R$ 18,00</span></div>
+          <div class="linha-resumo total"><span>Total</span><span>R$ 100,80</span></div>
+          <button type="submit" class="btn btn-ouro btn-bloco" style="margin-top:20px;">Confirmar pedido</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 SULMINA. Todos os direitos reservados.</span>
+      <span>
+        <a href="privacidade.html">Privacidade</a> ·
+        <a href="termos.html">Termos de Uso</a> ·
+        <a href="trocas-devolucoes.html">Trocas e Devoluções</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

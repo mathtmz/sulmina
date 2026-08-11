@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrinho — SULMINA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L8 9l4 6 3-4 7 9H2z"/></svg>
+      SULMINA
+    </a>
+    <nav class="nav-principal">
+      <a href="loja.html">Loja</a>
+      <a href="assinatura.html">Assinatura</a>
+      <a href="produtores.html">Nossos Produtores</a>
+      <a href="historia.html">Nossa História</a>
+      <a href="jornal.html">Jornal</a>
+    </nav>
+    <div class="header-acoes">
+      <button class="icone-acao" aria-label="Buscar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="carrinho.html" class="icone-acao" aria-label="Carrinho">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/></svg>
+        <span class="badge-carrinho">2</span>
+      </a>
+      <a href="assinatura.html" class="btn btn-ouro"><span class="txt">Quero assinar</span></a>
+      <button class="btn-menu-mobile" aria-label="Abrir menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="secao bg-branco">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Carrinho</div>
+      <h1>Seu carrinho</h1>
+
+      <div class="layout-carrinho">
+        <div>
+          <div class="tabela-carrinho-wrap">
+          <table class="tabela-carrinho">
+            <thead>
+              <tr><th>Produto</th><th>Preço</th><th>Qtd.</th><th>Subtotal</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="item-carrinho-info">
+                    <div class="placeholder-img">Foto</div>
+                    <div>
+                      <strong>Café Terras Altas</strong><br>
+                      <span style="font-size:13px; color:var(--terracota);">de José Loureiro · Grão inteiro</span>
+                    </div>
+                  </div>
+                </td>
+                <td>R$ 42,90</td>
+                <td>
+                  <div class="seletor-qtd">
+                    <button type="button" data-acao="menos" aria-label="Diminuir">−</button>
+                    <input type="text" value="1" readonly>
+                    <button type="button" data-acao="mais" aria-label="Aumentar">+</button>
+                  </div>
+                </td>
+                <td>R$ 42,90</td>
+                <td><button class="btn-texto" style="color:var(--grafite-quente); opacity:.5;" aria-label="Remover">Remover</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="item-carrinho-info">
+                    <div class="placeholder-img">Foto</div>
+                    <div>
+                      <strong>Café Raízes de Machado</strong><br>
+                      <span style="font-size:13px; color:var(--terracota);">de Dona Marta · Moído — coador</span>
+                    </div>
+                  </div>
+                </td>
+                <td>R$ 39,90</td>
+                <td>
+                  <div class="seletor-qtd">
+                    <button type="button" data-acao="menos" aria-label="Diminuir">−</button>
+                    <input type="text" value="1" readonly>
+                    <button type="button" data-acao="mais" aria-label="Aumentar">+</button>
+                  </div>
+                </td>
+                <td>R$ 39,90</td>
+                <td><button class="btn-texto" style="color:var(--grafite-quente); opacity:.5;" aria-label="Remover">Remover</button></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="campo-linha" style="margin-top:32px; max-width:420px;">
+            <div class="campo" style="flex:2;">
+              <input type="text" placeholder="Cupom de desconto">
+            </div>
+            <div class="campo" style="flex:1;">
+              <button class="btn btn-contorno" style="color:var(--terracota); border-color:var(--terracota); width:100%;">Aplicar</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="resumo-pedido">
+          <h3>Resumo do pedido</h3>
+          <div class="linha-resumo"><span>Subtotal</span><span>R$ 82,80</span></div>
+          <div class="linha-resumo"><span>Frete</span><span>Calculado no checkout</span></div>
+          <div class="linha-resumo total"><span>Total</span><span>R$ 82,80</span></div>
+          <a href="checkout.html" class="btn btn-ouro btn-bloco" style="margin-top:20px;">Finalizar compra</a>
+          <a href="loja.html" class="btn-texto" style="display:block; text-align:center; margin-top:14px;">Continuar comprando</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="color:var(--branco-quente);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L8 9l4 6 3-4 7 9H2z"/></svg>
+          SULMINA
+        </div>
+        <p class="footer-tagline">Da nossa terra, pra sua mesa.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="WhatsApp">WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Loja</h4>
+        <ul>
+          <li><a href="loja.html">Todos os cafés</a></li>
+          <li><a href="assinatura.html">Assinatura</a></li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="historia.html">Nossa História</a></li>
+          <li><a href="produtores.html">Nossos Produtores</a></li>
+          <li><a href="jornal.html">Jornal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ajuda</h4>
+        <ul>
+          <li><a href="faq.html">Perguntas Frequentes</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li><a href="minha-conta.html">Rastreio de pedido</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SULMINA. Todos os direitos reservados.</span>
+      <span>
+        <a href="privacidade.html">Privacidade</a> ·
+        <a href="termos.html">Termos de Uso</a> ·
+        <a href="trocas-devolucoes.html">Trocas e Devoluções</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

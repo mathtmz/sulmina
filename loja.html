@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nossos Cafés — SULMINA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L8 9l4 6 3-4 7 9H2z"/></svg>
+      SULMINA
+    </a>
+    <nav class="nav-principal">
+      <a href="loja.html" class="ativo">Loja</a>
+      <a href="assinatura.html">Assinatura</a>
+      <a href="produtores.html">Nossos Produtores</a>
+      <a href="historia.html">Nossa História</a>
+      <a href="jornal.html">Jornal</a>
+    </nav>
+    <div class="header-acoes">
+      <button class="icone-acao" aria-label="Buscar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="carrinho.html" class="icone-acao" aria-label="Carrinho">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/></svg>
+        <span class="badge-carrinho">2</span>
+      </a>
+      <a href="assinatura.html" class="btn btn-ouro"><span class="txt">Quero assinar</span></a>
+      <button class="btn-menu-mobile" aria-label="Abrir menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="secao bg-branco" style="padding-bottom:0;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Loja</div>
+      <h1>Nossos cafés</h1>
+      <p class="texto-apoio">Café especial, torrado sob encomenda, direto dos produtores do Sul de Minas.</p>
+    </div>
+  </section>
+
+  <section class="secao bg-branco" style="padding-top:32px;">
+    <div class="container layout-loja">
+      <aside class="filtros-loja">
+        <div class="grupo-filtro">
+          <h4>Torra</h4>
+          <label class="opcao-checkbox"><input type="checkbox"> Clara</label>
+          <label class="opcao-checkbox"><input type="checkbox" checked> Média</label>
+          <label class="opcao-checkbox"><input type="checkbox"> Escura</label>
+        </div>
+        <div class="grupo-filtro">
+          <h4>Notas sensoriais</h4>
+          <label class="opcao-checkbox"><input type="checkbox"> Chocolate</label>
+          <label class="opcao-checkbox"><input type="checkbox"> Caramelo</label>
+          <label class="opcao-checkbox"><input type="checkbox"> Floral</label>
+          <label class="opcao-checkbox"><input type="checkbox"> Frutado</label>
+        </div>
+        <div class="grupo-filtro">
+          <h4>Produtor</h4>
+          <label class="opcao-checkbox"><input type="checkbox"> Dona Marta</label>
+          <label class="opcao-checkbox"><input type="checkbox"> José Loureiro</label>
+          <label class="opcao-checkbox"><input type="checkbox"> Família Andrade</label>
+        </div>
+        <div class="grupo-filtro">
+          <h4>Moagem</h4>
+          <label class="opcao-checkbox"><input type="radio" name="moagem" checked> Grão</label>
+          <label class="opcao-checkbox"><input type="radio" name="moagem"> Moído</label>
+        </div>
+      </aside>
+
+      <div>
+        <div class="grid-3">
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Terras Altas</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Terras Altas</div>
+              <div class="nome-produtor">de José Loureiro, Poço Fundo/MG</div>
+              <div class="tags-notas"><span class="tag">chocolate</span><span class="tag">caramelo</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 42,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Serra da Mantiqueira</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Serra da Mantiqueira</div>
+              <div class="nome-produtor">de Família Andrade, Carmo de Minas/MG</div>
+              <div class="tags-notas"><span class="tag">laranja</span><span class="tag">floral</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 46,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Raízes de Machado</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Raízes de Machado</div>
+              <div class="nome-produtor">de Dona Marta, Machado/MG</div>
+              <div class="tags-notas"><span class="tag">nozes</span><span class="tag">mel</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 39,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Vale do Sul</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Vale do Sul</div>
+              <div class="nome-produtor">de Seu Antônio, Alfenas/MG</div>
+              <div class="tags-notas"><span class="tag">nozes</span><span class="tag">amêndoas</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 41,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Fazenda Bela Vista</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Fazenda Bela Vista</div>
+              <div class="nome-produtor">de José Loureiro, Poço Fundo/MG</div>
+              <div class="tags-notas"><span class="tag">frutado</span><span class="tag">mel</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 44,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+          <a href="produto.html" class="card card-produto">
+            <div class="placeholder-img wide">Foto do pacote — Café Recanto Machado</div>
+            <div class="card-produto-info">
+              <div class="nome-cafe">Café Recanto Machado</div>
+              <div class="nome-produtor">de Dona Marta, Machado/MG</div>
+              <div class="tags-notas"><span class="tag">chocolate</span><span class="tag">baunilha</span></div>
+              <div class="linha-preco-btn">
+                <span class="preco">R$ 40,90</span>
+                <button class="btn btn-ouro" data-adicionar-carrinho onclick="event.preventDefault()">Adicionar</button>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="banner-intermediario">
+          <p>Assinando, você economiza e recebe todo mês sem pensar duas vezes.</p>
+          <a href="assinatura.html" class="btn btn-ouro">Conhecer a assinatura</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="color:var(--branco-quente);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L8 9l4 6 3-4 7 9H2z"/></svg>
+          SULMINA
+        </div>
+        <p class="footer-tagline">Da nossa terra, pra sua mesa.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="WhatsApp">WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Loja</h4>
+        <ul>
+          <li><a href="loja.html">Todos os cafés</a></li>
+          <li><a href="assinatura.html">Assinatura</a></li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="historia.html">Nossa História</a></li>
+          <li><a href="produtores.html">Nossos Produtores</a></li>
+          <li><a href="jornal.html">Jornal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ajuda</h4>
+        <ul>
+          <li><a href="faq.html">Perguntas Frequentes</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li><a href="minha-conta.html">Rastreio de pedido</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SULMINA. Todos os direitos reservados.</span>
+      <span>
+        <a href="privacidade.html">Privacidade</a> ·
+        <a href="termos.html">Termos de Uso</a> ·
+        <a href="trocas-devolucoes.html">Trocas e Devoluções</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
