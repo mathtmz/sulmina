@@ -155,7 +155,7 @@ p { margin: 0 0 1em; }
   align-items: center;
   flex-shrink: 0;
 }
-.logo-img { height: 30px; width: auto; display: block; }
+.logo-img { height: 42px; width: auto; display: block; }
 .site-footer .logo-img { height: 26px; }
 .site-footer .logo-img-full { height: 62px; }
 .nav-principal {
