@@ -85,6 +85,9 @@ p { margin: 0 0 1em; }
 .centralizado { text-align: center; }
 .texto-apoio { color: var(--grafite-quente); opacity: .85; max-width: 640px; }
 .centralizado .texto-apoio { margin-left: auto; margin-right: auto; }
+.bg-escuro .texto-apoio, .bg-terracota .texto-apoio { color: var(--branco-quente); }
+.bg-escuro .breadcrumb, .bg-terracota .breadcrumb { color: var(--branco-quente); opacity: .65; }
+.bg-escuro .breadcrumb a:hover, .bg-terracota .breadcrumb a:hover { opacity: 1; }
 
 .cabecalho-secao { margin-bottom: 40px; }
 
