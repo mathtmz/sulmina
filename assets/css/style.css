@@ -276,15 +276,25 @@ p { margin: 0 0 1em; }
 .diferenciais {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 24px;
   text-align: center;
+  align-items: stretch;
+}
+.diferencial-item {
+  background: var(--creme-papel);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .diferencial-item svg { color: var(--terracota); margin-bottom: 12px; }
 .diferencial-icon { height: 30px; width: auto; margin: 0 auto 12px; display: block; }
 .diferencial-item strong { display: block; color: var(--cafe-torrado); margin-bottom: 4px; }
 
 @media (max-width: 720px) {
-  .diferenciais { grid-template-columns: 1fr; gap: 28px; }
+  .diferenciais { grid-template-columns: 1fr; gap: 20px; }
 }
 
 /* ---------- Grids ---------- */
