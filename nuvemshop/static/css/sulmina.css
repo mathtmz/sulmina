@@ -1,0 +1,1531 @@
+/* Sulmina visual layer
+   The commerce markup and hooks remain Nuvemshop-native; this file owns the brand layer. */
+:root {
+  --sul-cafe: #4A2C18;
+  --sul-terracota: #8C5A34;
+  --sul-verde: #5C6E4A;
+  --sul-ouro: #D69A3E;
+  --sul-creme: #F4EEE1;
+  --sul-papel: #FBF8F2;
+  --sul-grafite: #2E2620;
+  --sul-border: rgba(46, 38, 32, .14);
+  --sul-max: 1200px;
+  --sul-radius: 10px;
+  --sul-serif: "Fraunces", Georgia, serif;
+  --sul-sans: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--sul-creme); color: var(--sul-grafite); font-family: var(--sul-sans); font-size: 16px; line-height: 1.6; }
+h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 { font-family: var(--sul-serif); color: var(--sul-cafe); line-height: 1.14; letter-spacing: -.02em; }
+a { color: inherit; }
+.sulmina-container { width: min(var(--sul-max), calc(100% - 48px)); margin: 0 auto; }
+
+/* Header */
+.sulmina-header { position: sticky; top: 0; z-index: 1000; background: var(--sul-creme); border-bottom: 1px solid var(--sul-border); }
+.sulmina-header__inner { width: min(var(--sul-max), calc(100% - 48px)); min-height: 76px; margin: 0 auto; display: flex; align-items: center; gap: 26px; }
+.sulmina-brand { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.sulmina-brand img { width: 144px; height: auto; display: block; }
+.sulmina-nav { flex: 1 1 auto; min-width: 0; }
+.sulmina-nav__list { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2.5vw, 32px); margin: 0; padding: 0; list-style: none; }
+.sulmina-nav__list > li { position: relative; list-style: none; }
+.sulmina-nav__list .nav-list-link { display: inline-block; padding: 8px 0; color: var(--sul-grafite); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.sulmina-nav__list .nav-list-link:hover, .sulmina-nav__list .selected { color: var(--sul-terracota); }
+.sulmina-nav__list .list-subitems { position: absolute; top: 100%; left: -16px; min-width: 200px; padding: 12px 16px; background: var(--sul-papel); box-shadow: 0 14px 30px rgba(74,44,24,.12); }
+.sulmina-nav__list .item-with-subitems:hover .list-subitems { display: block !important; }
+.sulmina-header__actions { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+.sulmina-header__actions > .utilities-container { display: flex; align-items: center; gap: 12px; }
+.sulmina-header__actions .utilities-item { display: flex; align-items: center; }
+.sulmina-header__actions .utilities-link, .sulmina-header__actions .cart-summary a { color: var(--sul-cafe); font-size: 14px; }
+.sulmina-header__actions .utilities-link:hover, .sulmina-header__actions .cart-summary a:hover { color: var(--sul-terracota); }
+.sulmina-header__actions .cart-widget-amount { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; margin-left: 3px; padding: 0 5px; border-radius: 100px; background: var(--sul-ouro); color: var(--sul-cafe); font-size: 11px; font-weight: 700; }
+.sulmina-header__actions > .utilities-container:first-child { display: none; }
+.sulmina-header .icon-inline { width: 20px; height: 20px; }
+.sulmina-account-utility { display: none !important; }
+.sulmina-header .cart-summary { position: relative; overflow: visible; }
+.sulmina-header .cart-summary .badge,
+.sulmina-header .cart-summary .js-cart-widget-amount,
+.sulmina-header .cart-summary .cart-widget-amount { position: absolute; top: -5px; right: -6px; z-index: 2; display: flex !important; align-items: center; justify-content: center; width: 18px; min-width: 18px; height: 18px; margin: 0; padding: 0; border: 0; border-radius: 50%; background: var(--sul-ouro); color: var(--sul-cafe); font-size: 10px; font-weight: 700; line-height: 1; }
+.notification-cart-container {
+  z-index: 2005;
+  width: min(360px, calc(100vw - 32px));
+}
+.notification-cart-container .notification-cart {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(74, 44, 24, .16);
+  border-radius: 0;
+  background: var(--sul-papel);
+  color: var(--sul-cafe);
+  box-shadow: 0 18px 42px rgba(46, 38, 32, .18);
+  font-size: 13px;
+}
+.notification-cart-container .js-cart-notification-item { min-height: 92px; align-items: stretch; }
+.notification-cart-container .notification-img-big {
+  width: 92px;
+  height: 92px;
+  flex: 0 0 92px;
+  background: var(--sul-creme);
+}
+.notification-cart-container .notification-img-big img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.notification-cart-container .js-cart-notification-item > .col.text-left {
+  min-width: 0;
+  padding: 17px 38px 15px 16px !important;
+}
+.notification-cart-container .js-cart-notification-item-name {
+  display: block;
+  overflow: hidden;
+  color: var(--sul-cafe);
+  font-weight: 700;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.notification-cart-container .js-cart-notification-item .d-flex {
+  margin-top: 7px !important;
+  margin-bottom: 7px !important;
+  color: rgba(74, 44, 24, .7);
+  font-size: 12px;
+}
+.notification-cart-container .js-cart-notification-item > .col.text-left > strong {
+  color: var(--sul-terracota);
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+.notification-cart-container .notification-close {
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  margin: 0 !important;
+  padding: 0;
+  color: var(--sul-cafe);
+  line-height: 1;
+}
+.notification-cart-container .notification-close .notification-icon { width: 18px; height: 18px; }
+
+/* Home */
+.sulmina-home { overflow: hidden; }
+.sulmina-hero { position: relative; min-height: 570px; display: flex; align-items: center; color: var(--sul-papel); background: linear-gradient(135deg, #4A2C18 0%, #8C5A34 52%, #B87F2E 100%); }
+.sulmina-hero--image { background-image: linear-gradient(90deg, rgba(34,20,12,.78), rgba(74,44,24,.28)), var(--sulmina-hero-image); background-position: center; background-size: cover; }
+.sulmina-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 25%, rgba(255,255,255,.16), transparent 28%), linear-gradient(90deg, rgba(34,20,12,.2), transparent 65%); pointer-events: none; }
+.sulmina-hero__inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 40px; }
+.sulmina-hero__copy { width: 100%; max-width: 640px; }
+.sulmina-hero h1 { max-width: 640px; margin: 0 0 20px; color: var(--sul-papel); font-size: clamp(32px, 5vw, 56px); }
+.sulmina-kicker { margin: 0 0 16px; color: var(--sul-ouro); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.sulmina-hero__lead { max-width: 520px; margin: 0 0 30px; color: rgba(251,248,242,.9); font-size: 19px; }
+.sulmina-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.sulmina-button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border: 1px solid transparent; border-radius: 7px; font-weight: 600; text-decoration: none; transition: transform .18s ease, background .18s ease, color .18s ease; }
+.sulmina-button:hover { transform: translateY(-2px); }
+.sulmina-button--gold { background: var(--sul-ouro); color: var(--sul-cafe); }
+.sulmina-button--gold:hover { background: #E4B25C; color: var(--sul-cafe); }
+.sulmina-button--outline { border-color: rgba(251,248,242,.58); color: var(--sul-papel); }
+.sulmina-button--outline:hover { background: rgba(251,248,242,.1); color: var(--sul-papel); }
+.sulmina-hero__mark { display: none; align-items: center; gap: 16px; color: rgba(251,248,242,.82); font-family: var(--sul-serif); font-size: 21px; line-height: 1.15; transform: rotate(-6deg); }
+.sulmina-hero__mark-line { display: block; width: 64px; height: 1px; background: var(--sul-ouro); }
+.sulmina-trust { padding: clamp(72px, 9vw, 146px) 0 clamp(82px, 10vw, 164px); background: var(--sul-papel); border-bottom: 0; }
+.sulmina-trust__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 2.2vw, 38px); }
+.sulmina-trust__item { min-height: 196px; padding: 18px 24px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; text-align: center; background: var(--sul-creme); border: 1px solid var(--sul-border); border-radius: 16px; }
+.sulmina-trust__number { color: var(--sul-terracota); font-family: var(--sul-serif); font-size: 18px; }
+.sulmina-trust__item strong { display: block; margin-top: 8px; color: var(--sul-cafe); font-size: clamp(19px, 1.45vw, 24px); line-height: 1.25; }
+.sulmina-trust__item > span:last-child { display: block; max-width: 420px; margin-top: 8px; color: rgba(46,38,32,.78); font-size: clamp(17px, 1.35vw, 23px); line-height: 1.35; }
+.sulmina-story, .sulmina-products, .sulmina-process, .sulmina-newsletter { padding: clamp(64px, 9vw, 112px) 0; }
+.sulmina-story { background: var(--sul-creme); }
+.sulmina-story__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 7vw, 100px); align-items: start; }
+.sulmina-story h2, .sulmina-section-heading h2 { margin: 0; font-size: clamp(30px, 4vw, 48px); }
+.sulmina-story__text { padding-top: 32px; font-size: 17px; }
+.sulmina-story__text p { max-width: 480px; }
+.sulmina-story__image { display: block; width: 100%; min-height: 300px; height: 100%; object-fit: cover; object-position: center; }
+.sulmina-text-link { color: var(--sul-terracota); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--sul-ouro); }
+.sulmina-text-link:hover { color: var(--sul-cafe); }
+.sulmina-products { background: var(--sul-papel); }
+.sulmina-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+.sulmina-section-heading--center { display: block; max-width: 650px; margin-right: auto; margin-left: auto; text-align: center; }
+.sulmina-section-heading h2, .sulmina-producer-card h3, .sulmina-story--feature h2 { color: var(--sul-terracota); }
+.sulmina-product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.sulmina-home-product-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--sul-border); border-radius: 10px; background: var(--sul-papel); color: var(--sul-grafite); }
+.sulmina-loja-page [hidden] { display: none !important; }
+.sulmina-home-product-card:hover { box-shadow: none; transform: none; }
+.sulmina-home-product-card,
+.sulmina-home-product-card:hover,
+.sulmina-home-product-card__media,
+.sulmina-home-product-card__media:hover,
+.sulmina-home-product-card__media .js-product-item-image-container-private,
+.sulmina-home-product-card__media .js-product-item-image-container-private:hover,
+.sulmina-home-product-card__media .js-item-image-padding,
+.sulmina-home-product-card__media .js-item-image-padding:hover,
+.sulmina-home-product-card__media .js-product-item-image-link-private,
+.sulmina-home-product-card__media .js-product-item-image-link-private:hover,
+.sulmina-home-product-card__media .item-image img,
+.sulmina-home-product-card__media .item-image img:hover,
+.sulmina-home-product-card__info,
+.sulmina-home-product-card__info:hover,
+.sulmina-home-product-card__name:hover,
+.sulmina-home-product-card__button:hover {
+  transform: none !important;
+  translate: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+.sulmina-home-product-card__media { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--sul-creme); }
+.sulmina-home-product-card__media .js-product-item-image-container-private,
+.sulmina-home-product-card__media .item-image { position: absolute !important; inset: 0; width: 100%; height: 100% !important; margin: 0; overflow: hidden; background: linear-gradient(135deg, rgba(214,154,62,.18), rgba(140,90,52,.18)); }
+.sulmina-home-product-card__media .js-item-image-padding { position: absolute !important; inset: 0; height: 100% !important; padding: 0 !important; }
+.sulmina-home-product-card__media .js-product-item-image-link-private { position: absolute; inset: 0; display: block; }
+.sulmina-home-product-card__media .item-image img { position: absolute; top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: none !important; transform: none !important; }
+.sulmina-home-product-card__media .item-image-secondary { display: none !important; }
+.sulmina-home-product-card__info { display: flex; min-height: 182px; flex: 1; flex-direction: column; padding: 18px; }
+.sulmina-home-product-card__name { display: block; margin-bottom: 2px; color: var(--sul-cafe); font-family: var(--sul-serif); font-size: 17px; font-weight: 600; line-height: 1.25; text-decoration: none; }
+.sulmina-home-product-card__producer { margin-bottom: 10px; color: var(--sul-terracota); font-size: 13px; line-height: 1.35; }
+.sulmina-home-product-card__tags { display: flex; min-height: 27px; flex-wrap: wrap; align-content: flex-start; gap: 6px; margin-top: auto; margin-bottom: 12px; }
+.sulmina-home-product-card__tags span { padding: 3px 10px; border: 1px solid var(--sul-border); border-radius: 20px; background: var(--sul-creme); color: var(--sul-grafite); font-size: 12px; line-height: 1.3; }
+.sulmina-home-product-card__buy-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 0; }
+.sulmina-home-product-card__price { color: var(--sul-cafe); font-size: 18px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.sulmina-home-product-card__form { display: block; margin: 0; }
+.sulmina-home-product-card__button { display: inline-flex; min-width: 130px; min-height: 44px; align-items: center; justify-content: center; padding: 12px 28px; border: 0; border-radius: 8px; background: var(--sul-ouro); color: var(--sul-cafe) !important; font-family: var(--sul-sans); font-size: 15px; font-weight: 500; letter-spacing: .02em; line-height: 1; text-decoration: none; white-space: nowrap; transition: transform .15s ease, background .2s ease; }
+.sulmina-home-product-card__button:hover { background: #B87F2E; color: var(--sul-cafe) !important; transform: translateY(-1px); }
+.sulmina-home-product-card__form .btn-placeholder { display: none !important; }
+.sulmina-products--empty { min-height: 300px; }
+.sulmina-empty-state { padding: 40px; text-align: center; border: 1px dashed var(--sul-border); }
+.sulmina-process { background: var(--sul-creme); }
+.sulmina-process__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; text-align: center; }
+.sulmina-process__item { padding-top: 0; border-top: 0; }
+.sulmina-process__item > span { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: 0 auto 14px; border-radius: 50%; background: var(--sul-ouro); color: var(--sul-cafe); font-family: var(--sul-sans); font-size: 16px; font-weight: 700; }
+.sulmina-process__item h3 { margin: 0 0 8px; font-size: 20px; }
+.sulmina-process__item p { max-width: 300px; margin: 0 auto; color: rgba(46,38,32,.78); }
+.sulmina-newsletter { background: var(--sul-cafe); color: var(--sul-papel); }
+.sulmina-newsletter .newsletter { margin: 0; padding: 0; background: transparent; color: var(--sul-papel); }
+.sulmina-newsletter .newsletter h3 { color: var(--sul-papel); font-size: clamp(28px, 4vw, 42px); }
+.sulmina-newsletter .newsletter p { color: rgba(251,248,242,.8); }
+.sulmina-newsletter .newsletter input { min-height: 48px; border: 1px solid rgba(251,248,242,.25); background: rgba(251,248,242,.08); color: var(--sul-papel); }
+.sulmina-newsletter .newsletter input::placeholder { color: rgba(251,248,242,.68); }
+.sulmina-newsletter .newsletter-btn { min-height: 48px; border: 0; background: var(--sul-ouro); color: var(--sul-cafe); font-weight: 700; }
+
+/* Commerce pages keep Nuvemshop's forms, but inherit Sulmina's visual language. */
+.template-category, .template-search, .template-product, .template-cart, .template-page, .template-contact { background: var(--sul-creme); }
+.page-header, .category-header { padding-top: 48px; padding-bottom: 26px; background: var(--sul-cafe); color: var(--sul-papel); }
+.page-header h1, .category-header h1, .category-header .h1 { color: var(--sul-papel); }
+.category-body, .section-single-product, #shoppingCartPage { padding-top: 42px; padding-bottom: 80px; }
+.item-product { color: var(--sul-grafite); }
+.btn-primary, .js-prod-submit-form { border: 0; border-radius: 7px; background: var(--sul-ouro); color: var(--sul-cafe); font-weight: 700; }
+.btn-primary:hover, .js-prod-submit-form:hover { background: #B87F2E; color: var(--sul-cafe); }
+.product-name, .product-title, .product-detail h1 { font-family: var(--sul-serif); color: var(--sul-cafe); }
+.form-control, select, input, textarea { border-color: var(--sul-border); border-radius: 6px; }
+.form-control:focus, select:focus, input:focus, textarea:focus { border-color: var(--sul-terracota); box-shadow: 0 0 0 3px rgba(140,90,52,.12); }
+
+/* Footer: the newsletter stands on its own, followed by the reference footer structure. */
+.sulmina-footer-newsletter-wrap { padding: clamp(52px, 7vw, 88px) 0; background: var(--sul-creme); }
+.sulmina-footer-newsletter-wrap .sulmina-footer-newsletter { max-width: 900px; }
+.sulmina-footer-newsletter-wrap .sulmina-footer-newsletter__card { background: var(--sul-cafe); }
+.site-footer, .js-footer { padding: clamp(54px, 7vw, 82px) 0 26px; background: var(--sul-cafe); color: var(--sul-papel); }
+.sulmina-footer-brand { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; padding-bottom: 40px; margin-bottom: 42px; border-bottom: 1px solid rgba(251,248,242,.16); text-align: left; }
+.sulmina-footer-brand__identity { display: flex; align-items: center; gap: 30px; min-width: 0; }
+.sulmina-footer-brand img { width: 220px; height: auto; }
+.sulmina-footer-brand p { margin: 0; color: rgba(251,248,242,.78); font-family: var(--sul-serif); font-size: 20px; }
+.sulmina-footer-brand__social { display: flex; align-items: center; gap: 20px; }
+.sulmina-footer-instagram, .sulmina-footer-social-link { display: inline-flex; align-items: center; gap: 9px; color: var(--sul-papel) !important; font-size: 14px; font-weight: 600; opacity: .9 !important; text-decoration: none; }
+.sulmina-footer-instagram-mark { position: relative; display: inline-block; width: 20px; height: 20px; flex: 0 0 20px; border: 1.8px solid currentColor; border-radius: 5px; }
+.sulmina-footer-instagram-mark::before { position: absolute; top: 4px; left: 4px; width: 8px; height: 8px; border: 1.8px solid currentColor; border-radius: 50%; content: ''; }
+.sulmina-footer-instagram-mark::after { position: absolute; top: 3px; right: 3px; width: 3px; height: 3px; border-radius: 50%; background: currentColor; content: ''; }
+.sulmina-footer-instagram:hover, .sulmina-footer-social-link:hover { color: var(--sul-ouro) !important; opacity: 1 !important; }
+.site-footer a, .js-footer a { color: var(--sul-papel); opacity: .82; }
+.site-footer a:hover, .js-footer a:hover { color: var(--sul-ouro); opacity: 1; }
+.js-footer h3, .js-footer h4, .js-footer .h3, .js-footer .h4 { color: var(--sul-papel); }
+.sulmina-footer-links { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 56px; padding-bottom: 42px; border-bottom: 1px solid rgba(251,248,242,.16); text-align: left; }
+.sulmina-footer-links--native { grid-template-columns: 1fr; }
+.sulmina-footer-links--native .sulmina-footer-link-group { grid-column: 1 / -1; }
+.sulmina-footer-links--native .sulmina-footer-link-group ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px 32px; }
+.sulmina-footer-link-group h3 { margin: 0 0 18px; color: var(--sul-papel); font-family: var(--sul-sans); font-size: 13px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.sulmina-footer-link-group ul { margin: 0; padding: 0; list-style: none; }
+.sulmina-footer-link-group li + li { margin-top: 11px; }
+.sulmina-footer-link-group a { color: rgba(251,248,242,.78); font-size: 15px; text-decoration: none; }
+.sulmina-footer-link-group a:hover { color: var(--sul-ouro); }
+.sulmina-footer-bottom { color: rgba(251,248,242,.62); }
+.sulmina-footer-legal { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 14px; }
+.sulmina-footer-legal-links { display: inline-flex; align-items: center; gap: 8px; }
+.sulmina-footer-legal-links a { color: rgba(251,248,242,.62); text-decoration: none; }
+.sulmina-footer-legal-links a:hover { color: var(--sul-ouro); }
+
+/* Newsletter page: a standalone native page, with the same visual language as
+   the footer card and the native Nuvemshop newsletter endpoint. */
+.sulmina-newsletter-page { min-height: 62vh; background: var(--sul-newsletter-page-bg); color: var(--sul-newsletter-page-text); }
+.sulmina-newsletter-page__hero { padding: clamp(64px, 9vw, 118px) 0; background: var(--sul-newsletter-page-bg); }
+.sulmina-newsletter-page__inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.sulmina-newsletter-page__eyebrow { display: inline-block; margin-bottom: 14px; color: var(--sul-newsletter-page-accent); font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.sulmina-newsletter-page h1 { margin: 0 auto; color: var(--sul-newsletter-page-title); font-family: var(--sul-serif); font-size: clamp(40px, 6vw, 72px); line-height: .98; letter-spacing: -.04em; }
+.sulmina-newsletter-page__description { max-width: 650px; margin: 20px auto 0; color: var(--sul-newsletter-page-text); font-size: clamp(17px, 2vw, 21px); line-height: 1.5; }
+.sulmina-newsletter-page__card { max-width: 760px; margin: 38px auto 0; padding: clamp(24px, 4vw, 44px); border: 1px solid color-mix(in srgb, var(--sul-newsletter-page-accent) 28%, transparent); border-radius: var(--sul-radius); background: var(--sul-newsletter-page-card); box-shadow: 0 18px 46px rgba(74,44,24,.08); text-align: left; }
+.sulmina-newsletter-page__fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 14px; align-items: end; }
+.sulmina-newsletter-page__field label { display: block; margin-bottom: 7px; color: var(--sul-newsletter-page-title); font-size: 13px; font-weight: 700; }
+.sulmina-newsletter-page__field .form-control { min-height: 50px; border: 1px solid rgba(74,44,24,.24); background: var(--sul-papel); color: var(--sul-newsletter-page-title); }
+.sulmina-newsletter-page__submit { min-height: 50px; padding: 12px 24px; border: 0; border-radius: 7px; background: var(--sul-newsletter-page-accent); color: var(--sul-newsletter-page-title); cursor: pointer; font-family: var(--sul-sans); font-weight: 700; white-space: nowrap; }
+.sulmina-newsletter-page__submit:hover { filter: brightness(1.06); }
+.sulmina-newsletter-page__honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.sulmina-newsletter-page__feedback { margin: 0; font-weight: 700; text-align: center; }
+.sulmina-newsletter-page__feedback--success { color: var(--sul-verde); }
+.sulmina-newsletter-page__feedback--error { color: #9C3D2C; }
+.sulmina-newsletter-page__note { margin: 16px auto 0; color: rgba(46,38,32,.68); font-size: 13px; text-align: center; }
+
+/* Editorial pages: the content is supplied by the store admin, while the frame stays Sulmina. */
+.sulmina-editorial-page__body, .sulmina-journal, .sulmina-journal-post, .sulmina-contact-page,
+.sulmina-product-page, .sulmina-category-page, .sulmina-cart-page, .sulmina-search-page { min-height: 50vh; }
+.sulmina-editorial-page__body, .sulmina-journal__grid, .sulmina-journal-post__body,
+.sulmina-contact-page .contact-page, .sulmina-cart-page #shoppingCartPage, .sulmina-search-page .category-body { padding-top: 52px; padding-bottom: 88px; }
+.sulmina-rich-content { max-width: 820px; }
+.sulmina-rich-content h2 { margin-top: 2.5em; margin-bottom: .65em; font-size: clamp(27px, 4vw, 40px); }
+.sulmina-rich-content h3 { margin-top: 2em; margin-bottom: .5em; font-size: 25px; }
+.sulmina-rich-content p, .sulmina-rich-content ul, .sulmina-rich-content ol { max-width: 720px; }
+.sulmina-rich-content img { max-width: 100%; height: auto; }
+.sulmina-rich-content a { color: var(--sul-terracota); text-decoration: underline; text-decoration-color: var(--sul-ouro); text-underline-offset: 3px; }
+.sulmina-journal__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 42px 24px; }
+.sulmina-journal-card { min-width: 0; }
+.sulmina-journal-card__image { position: relative; min-height: 220px; overflow: hidden; background: var(--sul-papel); }
+.sulmina-journal-card__title { color: var(--sul-cafe); font-family: var(--sul-serif); font-size: 25px; line-height: 1.18; }
+.sulmina-journal-card__summary { color: rgba(46,38,32,.78); }
+.sulmina-journal-post__body { max-width: 920px; }
+.sulmina-journal-post__image { width: 100%; max-height: 560px; object-fit: cover; }
+.sulmina-journal-post__date { color: var(--sul-terracota); font-weight: 700; }
+.sulmina-journal { background: var(--sul-papel); }
+.sulmina-journal__hero {
+  padding: clamp(52px, 7vw, 82px) 0 30px;
+  background: var(--sul-papel);
+}
+.sulmina-journal__eyebrow {
+  margin: 0 0 14px;
+  color: var(--sul-terracota);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.sulmina-journal__hero h1 {
+  margin: 0 0 18px;
+  color: var(--sul-cafe);
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 600;
+  letter-spacing: -.045em;
+}
+.sulmina-journal__hero > .sulmina-container > p:not(.sulmina-journal__eyebrow) {
+  margin: 0;
+  color: rgba(46, 38, 32, .76);
+  font-size: 18px;
+}
+.sulmina-journal__topics { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.sulmina-journal__topic {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  padding: 7px 18px;
+  border: 1px solid var(--sul-border);
+  border-radius: 999px;
+  color: var(--sul-grafite);
+  font-size: 13px;
+  line-height: 1.2;
+}
+.sulmina-journal__topic--active { border-color: var(--sul-terracota); background: var(--sul-terracota); color: var(--sul-papel); }
+.sulmina-journal__body { padding: 26px 0 88px; background: var(--sul-creme); }
+.sulmina-journal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; padding: 0; }
+.sulmina-journal-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--sul-border);
+  border-radius: 10px;
+  background: var(--sul-papel);
+  box-shadow: 0 8px 20px rgba(74, 44, 24, .04);
+}
+.sulmina-journal-card__inner { height: 100%; }
+.sulmina-journal-card__image {
+  position: relative;
+  aspect-ratio: 1.65;
+  min-height: 190px;
+  overflow: hidden;
+  background: var(--sul-creme);
+}
+.sulmina-journal-card__image-file { width: 100%; height: 100%; object-fit: cover; }
+.sulmina-journal-card__information { padding: 24px 24px 28px; }
+.sulmina-journal-card__title {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--sul-cafe);
+  font-family: var(--sul-serif);
+  font-size: clamp(23px, 3vw, 30px);
+  font-weight: 600;
+  line-height: 1.15;
+  text-decoration: none;
+}
+.sulmina-journal-card__summary { margin-bottom: 0; color: rgba(46, 38, 32, .78); font-size: 16px; line-height: 1.6; }
+.sulmina-journal-card__read-more { display: inline-block; margin-top: 18px; color: var(--sul-terracota); text-decoration-color: var(--sul-ouro); text-underline-offset: 3px; }
+.sulmina-journal__empty { max-width: 650px; margin: 0 auto; padding: 82px 24px; text-align: center; }
+.sulmina-journal__empty h2 { margin: 0 0 14px; color: var(--sul-cafe); font-size: clamp(30px, 4vw, 44px); }
+.sulmina-journal__empty p:last-child { margin: 0; color: rgba(46, 38, 32, .74); font-size: 17px; line-height: 1.65; }
+.sulmina-journal-post { background: var(--sul-papel); }
+.sulmina-journal-post__content { padding-bottom: 88px; }
+.sulmina-journal-post__content .sulmina-journal-post__image {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: min(56vw, 680px);
+  min-height: 360px;
+  margin: 0;
+  object-fit: cover;
+  background: var(--sul-creme);
+}
+.sulmina-journal-post__content .sulmina-journal-post__date,
+.sulmina-journal-post__content .sulmina-journal-post__body,
+.sulmina-journal-post__content > .blog-post-page > *:not(.sulmina-journal-post__image) { max-width: 820px; margin-right: auto; margin-left: auto; }
+.sulmina-journal-post__content .sulmina-journal-post__date { padding-top: 30px; }
+.sulmina-journal-post__content .sulmina-journal-post__body { padding-top: 28px; color: var(--sul-grafite); font-size: 17px; line-height: 1.78; }
+.sulmina-journal-post__content .sulmina-journal-post__body h1 { margin: 12px auto 14px; color: var(--sul-cafe); font-size: clamp(38px, 6vw, 68px); line-height: 1.02; }
+.sulmina-journal-post__content .sulmina-journal-post__body h2 { margin: 2.6em 0 .6em; color: var(--sul-terracota); font-size: clamp(28px, 4vw, 40px); }
+.sulmina-journal-post__content .sulmina-journal-post__body p { max-width: 720px; margin-bottom: 1.25em; }
+.sulmina-product-page #single-product, .sulmina-product-page .section-single-product { background: var(--sul-creme); }
+.sulmina-product-page .product-image { background: var(--sul-papel); }
+.sulmina-product-page .sulmina-product-title { display: block; max-width: 100%; padding: 0; color: var(--sul-cafe); box-shadow: none; }
+.sulmina-product-page .sulmina-product-description { max-width: 720px; margin: 8px 0 22px !important; padding: 0; border: 0; text-align: left !important; }
+.sulmina-product-page .sulmina-product-description .user-content { margin-bottom: 0 !important; color: rgba(46,38,32,.82); font-size: 15px; line-height: 1.65; }
+.sulmina-product-page .product-description { max-width: 720px; }
+.sulmina-product-page .product-description h5 { font-family: var(--sul-serif); font-size: 28px; color: var(--sul-cafe); }
+.sulmina-category-page .category-body, .sulmina-search-page .category-body { background: var(--sul-creme); }
+.sulmina-category-page .category-controls, .sulmina-search-page .category-controls { border-bottom: 1px solid var(--sul-border); }
+.sulmina-cart-page .cart-body { background: var(--sul-creme); }
+.sulmina-cart-page .cart-row { border-color: var(--sul-border); }
+.sulmina-contact-page .contact-page .container { max-width: 820px; }
+.sulmina-contact-page .contact-page .text-center { text-align: left !important; }
+.sulmina-contact-page .contact-page .form-group { margin-bottom: 18px; }
+
+/* Loja: the listing follows the reference store's editorial layout while
+   products, cart actions and filters remain connected to Nuvemshop. */
+.sulmina-loja-page { background: var(--sul-papel); }
+.sulmina-loja-hero { padding: 48px 0; background: var(--sul-cafe); color: var(--sul-papel); }
+.sulmina-loja-hero h1 { margin: 22px 0 8px; color: var(--sul-papel); font-family: var(--sul-serif); font-size: clamp(36px, 5vw, 52px); }
+.sulmina-loja-hero p { max-width: 680px; margin: 0; color: rgba(251,248,242,.84); font-size: 18px; }
+.sulmina-loja-breadcrumb { display: flex; align-items: center; gap: 8px; color: rgba(251,248,242,.74); font-size: 14px; }
+.sulmina-loja-breadcrumb a { color: rgba(251,248,242,.9); text-decoration: none; }
+.sulmina-loja-breadcrumb a:hover { color: var(--sul-ouro); }
+.sulmina-loja-body { padding: 32px 0 88px; background: var(--sul-papel); }
+.sulmina-loja-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; align-items: start; }
+.sulmina-loja-filters { position: sticky; top: 100px; }
+.sulmina-loja-filter-group { margin-bottom: 28px; }
+.sulmina-loja-filter-group h4 { margin: 0 0 10px; color: var(--sul-grafite); font-family: var(--sul-sans); font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.sulmina-loja-filter-option { display: flex; align-items: center; gap: 8px; margin: 8px 0; color: var(--sul-grafite); font-size: 14px; line-height: 1.35; cursor: pointer; }
+.sulmina-loja-filter-option input { width: 16px; height: 16px; margin: 0; accent-color: var(--sul-terracota); }
+.sulmina-loja-products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.sulmina-loja-products-grid .sulmina-home-product-card { min-width: 0; }
+.sulmina-loja-no-results { padding: 30px 0; color: var(--sul-grafite); }
+.sulmina-loja-banner { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 48px; padding: 36px; border-radius: var(--sul-radius); background: var(--sul-terracota); color: var(--sul-papel); }
+.sulmina-loja-banner p { max-width: 480px; margin: 0; color: var(--sul-papel); font-family: var(--sul-serif); font-size: 19px; line-height: 1.35; }
+.sulmina-loja-banner .sulmina-button { flex: 0 0 auto; }
+.sulmina-loja-page .category-controls { display: none; background: var(--sul-papel); }
+.sulmina-loja-page .category-controls-container { max-width: var(--sul-max); text-align: left; }
+.sulmina-loja-page .category-controls-container > a { color: var(--sul-terracota); }
+
+@media (max-width: 1100px) {
+  .sulmina-loja-products-grid .sulmina-home-product-card__buy-row { align-items: stretch; flex-direction: column; gap: 10px; }
+  .sulmina-loja-products-grid .sulmina-home-product-card__price { align-self: flex-end; text-align: right; }
+  .sulmina-loja-products-grid .sulmina-home-product-card__form,
+  .sulmina-loja-products-grid .sulmina-home-product-card__button { width: 100%; }
+}
+
+/* Accessibility and mobile */
+:focus-visible { outline: 3px solid var(--sul-ouro); outline-offset: 3px; }
+@media (max-width: 960px) {
+  .sulmina-nav { display: none; }
+  .sulmina-header__inner { justify-content: space-between; }
+  .sulmina-header__actions > .utilities-container:first-child { display: flex; }
+  .sulmina-hero__mark { display: none; }
+  .sulmina-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sulmina-loja-layout { grid-template-columns: 1fr; gap: 28px; }
+  .sulmina-loja-page .category-controls { display: block; }
+  .sulmina-loja-filters { position: static; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .sulmina-loja-filter-group { margin-bottom: 0; }
+  .sulmina-loja-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sulmina-journal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .sulmina-container, .sulmina-header__inner { width: min(100% - 32px, var(--sul-max)); }
+  .sulmina-hero { min-height: 540px; }
+  .sulmina-hero h1 { font-size: clamp(40px, 12vw, 62px); }
+  .sulmina-trust__grid, .sulmina-story__grid, .sulmina-process__grid { grid-template-columns: 1fr; }
+  .sulmina-trust__item { min-height: 108px; border-right: 0; border-bottom: 1px solid var(--sul-border); }
+  .sulmina-trust__item:last-child { border-bottom: 0; }
+  .sulmina-story__text { padding-top: 0; }
+  .sulmina-section-heading { align-items: start; flex-direction: column; }
+  .sulmina-product-grid { grid-template-columns: 1fr; gap: 36px; }
+  .sulmina-loja-hero { padding: 38px 0; }
+  .sulmina-loja-hero h1 { margin-top: 18px; font-size: clamp(34px, 11vw, 48px); }
+  .sulmina-loja-hero p { font-size: 16px; }
+  .sulmina-loja-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
+  .sulmina-loja-products-grid { grid-template-columns: 1fr; gap: 24px; }
+  .sulmina-loja-banner { align-items: stretch; flex-direction: column; margin-top: 34px; padding: 24px; }
+  .sulmina-loja-banner .sulmina-button { width: 100%; }
+  .sulmina-journal__grid { grid-template-columns: 1fr; gap: 36px; }
+  .sulmina-journal__hero { padding: 44px 0 26px; }
+  .sulmina-journal__hero h1 { font-size: clamp(36px, 11vw, 50px); }
+  .sulmina-journal__hero > .sulmina-container > p:not(.sulmina-journal__eyebrow) { font-size: 16px; }
+  .sulmina-journal__topics { gap: 8px; }
+  .sulmina-journal__topic { padding-right: 13px; padding-left: 13px; font-size: 12px; }
+  .sulmina-journal__body { padding-top: 22px; }
+  .sulmina-journal-card__information { padding: 20px 18px 22px; }
+  .sulmina-journal-post__content .sulmina-journal-post__image { min-height: 260px; height: 75vw; }
+  .sulmina-journal-post__content .sulmina-journal-post__body { padding-right: 16px; padding-left: 16px; font-size: 16px; }
+  .sulmina-editorial-page__body, .sulmina-journal__grid, .sulmina-journal-post__body,
+  .sulmina-contact-page .contact-page, .sulmina-cart-page #shoppingCartPage, .sulmina-search-page .category-body { padding-top: 34px; padding-bottom: 58px; }
+  .sulmina-footer-brand { align-items: flex-start; flex-direction: column; }
+  .sulmina-actions { flex-direction: column; align-items: stretch; }
+  .sulmina-button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Morelia structural bridge: keep its native responsive/navigation markup while
+   applying the Sulmina editorial system. */
+.sulmina-site { background: var(--sul-creme); }
+.sulmina-header { background: var(--sul-creme); border-bottom: 1px solid var(--sul-border); box-shadow: none; }
+.sulmina-header .head-logo-row { max-width: var(--sul-max); min-height: 88px; padding: 16px 24px; }
+.sulmina-header .head-logo-row > .row { display: flex !important; flex-wrap: nowrap; align-items: center; width: 100%; gap: 24px; }
+.sulmina-header .js-utility-col.col-utility.d-md-none { display: none !important; }
+.sulmina-header .js-logo-container { order: 1 !important; flex: 0 0 auto; width: auto !important; text-align: left !important; }
+.sulmina-header .logo-container-col { min-height: 58px; }
+.sulmina-header .sulmina-brand { display: inline-flex; align-items: center; text-decoration: none; }
+.sulmina-header .sulmina-brand__image { display: block; width: 112px; height: 42px; }
+.sulmina-header .js-desktop-nav-col { display: none !important; }
+.sulmina-reference-nav { order: 2 !important; display: flex; flex: 1 1 auto; min-width: 0; justify-content: center; }
+.sulmina-reference-nav__list { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 2.5vw, 34px); margin: 0; padding: 0; list-style: none; }
+.sulmina-reference-nav__list li { list-style: none; }
+.sulmina-reference-nav__list a { position: relative; display: inline-block; padding: 6px 0; color: var(--sul-grafite); font-size: 15px; font-weight: 500; line-height: 1.2; text-decoration: none; white-space: nowrap; }
+.sulmina-reference-nav__list a:hover, .sulmina-reference-nav__list a.is-active { color: var(--sul-terracota); }
+.sulmina-reference-nav__list a.is-active::after { content: ""; position: absolute; right: 0; bottom: -8px; left: 0; height: 2px; background: var(--sul-ouro); }
+.sulmina-header .js-search-utility { order: 3 !important; flex: 0 0 auto; width: auto !important; }
+.sulmina-header .sulmina-header__cart-utility { order: 4 !important; display: flex; align-items: center; flex: 0 0 auto; width: auto; }
+.sulmina-header__buy { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; margin-left: 16px; padding: 12px 28px; border-radius: 8px; background: var(--sul-ouro); color: var(--sul-cafe) !important; font-size: 15px; font-weight: 600; line-height: 1; text-decoration: none; white-space: nowrap; }
+.sulmina-header__buy:hover { background: #E4B25C; color: var(--sul-cafe) !important; }
+.sulmina-header > .container.d-none.d-md-block { display: none !important; }
+.sulmina-header .nav-desktop-list { gap: clamp(12px, 2vw, 28px); }
+.sulmina-header .nav-list-link { color: var(--sul-grafite); font-family: var(--sul-sans); font-size: 14px; font-weight: 600; }
+.sulmina-header .nav-list-link:hover, .sulmina-header .nav-list-link.selected { color: var(--sul-terracota); }
+.sulmina-header .utilities-icon, .sulmina-header .icon-inline { color: var(--sul-cafe); }
+.sulmina-header .sulmina-cart-icon { width: 22px; height: 22px; }
+.sulmina-header .btn-utility:hover { color: var(--sul-terracota); }
+.sulmina-header .badge { background: var(--sul-ouro); color: var(--sul-cafe); }
+.sulmina-header .nav-dropdown-content { background: var(--sul-papel); border-color: var(--sul-border); box-shadow: 0 14px 30px rgba(74,44,24,.12); }
+.sulmina-header .desktop-list-subitems .nav-list-link { font-weight: 500; }
+
+.sulmina-site .page-header { margin-top: 0; padding-top: 52px !important; padding-bottom: 34px !important; background: var(--sul-cafe); color: var(--sul-papel); }
+.sulmina-site .page-header h1 { color: var(--sul-papel); font-family: var(--sul-serif); font-size: clamp(32px, 5vw, 54px); }
+.sulmina-site .page-header .breadcrumb, .sulmina-site .page-header .breadcrumb a { color: rgba(251,248,242,.76); }
+.sulmina-site .category-body, .sulmina-site #shoppingCartPage { background: var(--sul-creme); }
+.sulmina-site .container { max-width: var(--sul-max); }
+
+/* Reference-home sections */
+.sulmina-differential-icon { display: flex; align-items: center; justify-content: center; width: 112px; height: 48px; margin: 0 auto; object-fit: contain; color: var(--sul-terracota); }
+.sulmina-differential-icon svg { display: block; width: 42px; height: 42px; fill: currentColor; stroke: none; }
+.sulmina-differential-icon--person svg { width: 42px; height: 42px; }
+.sulmina-differential-icon--box svg { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; }
+.sulmina-producers { padding: clamp(48px, 8vw, 96px) 0; background: var(--sul-creme); }
+.sulmina-producers .sulmina-container { width: auto; max-width: var(--sul-max); padding-right: 24px; padding-left: 24px; }
+.sulmina-producers .sulmina-section-heading { margin-bottom: 40px; }
+.sulmina-producers .sulmina-section-heading h2 { font-size: clamp(24px, 3.4vw, 32px); }
+.sulmina-section-heading--center > p { max-width: 650px; margin: 16px auto 0; color: rgba(46,38,32,.76); }
+.sulmina-producer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.sulmina-producer-card { overflow: hidden; padding: 20px; border: 1px solid var(--sul-border); border-radius: var(--sul-radius); background: var(--sul-papel); text-align: center; }
+.sulmina-producer-card h3 { margin: 16px 0 3px; font-size: 20px; }
+.sulmina-producer-card > span { display: block; margin-bottom: 10px; color: var(--sul-grafite); font-size: 13px; opacity: .7; }
+.sulmina-producer-card p { margin: 0 auto; max-width: 220px; color: var(--sul-terracota); font-family: "Caveat", cursive; font-size: 24px; font-style: normal; font-weight: 600; line-height: 1.4; }
+.sulmina-placeholder { display: flex; align-items: center; justify-content: center; min-height: 128px; padding: 18px; background: linear-gradient(135deg, rgba(214,154,62,.18), rgba(140,90,52,.18)); color: var(--sul-terracota); font-size: 12px; text-align: center; }
+.sulmina-placeholder--round { width: 96px; height: 96px; min-height: 0; margin: 0 auto 14px; border-radius: 50%; }
+.sulmina-placeholder--wide { min-height: 300px; }
+.sulmina-producer-card__image { display: block; width: 96px; height: 96px; margin: 0 auto 14px; border-radius: 50%; object-fit: cover; object-position: center; }
+.sulmina-centered { margin: 32px 0 0; text-align: center; }
+.sulmina-products .sulmina-centered { margin-top: 32px; }
+.sulmina-story--feature { background: var(--sul-papel); }
+.sulmina-story--feature .sulmina-story__grid { align-items: center; }
+.sulmina-story--feature .sulmina-story__text { padding-top: 0; }
+.sulmina-story--feature .sulmina-story__text h2 { margin-bottom: 20px; }
+.sulmina-newsletter__inner { text-align: center; }
+.sulmina-newsletter__inner h2 { margin: 0; color: var(--sul-papel); font-size: clamp(30px, 4vw, 48px); }
+.sulmina-newsletter__inner > p { margin: 12px auto 0; color: rgba(251,248,242,.84); }
+.sulmina-newsletter__inner .newsletter { max-width: 620px; margin: 28px auto 0; }
+.sulmina-mobile-nav { display: grid; gap: 0; padding: 18px 24px 28px; }
+.sulmina-mobile-nav a { display: block; padding: 15px 0; border-bottom: 1px solid var(--sul-border); color: var(--sul-grafite); font-size: 17px; font-weight: 500; text-decoration: none; }
+.sulmina-mobile-nav a:first-child { border-top: 1px solid var(--sul-border); }
+.sulmina-mobile-nav a:hover, .sulmina-mobile-nav a.is-active { color: var(--sul-terracota); }
+
+@media (max-width: 960px) {
+  .sulmina-reference-nav { display: none; }
+  .sulmina-header .head-logo-row { min-height: 72px; padding: 12px 16px; }
+  .sulmina-header .head-logo-row > .row { gap: 10px; }
+  .sulmina-header .js-logo-container { order: 1 !important; flex: 1 1 auto; }
+  .sulmina-header .js-search-utility { order: 2 !important; margin-left: auto; }
+  .sulmina-header .sulmina-header__cart-utility { order: 3 !important; }
+  .sulmina-header .js-utility-col.col-utility.d-md-none { display: block !important; order: 4 !important; flex: 0 0 auto; width: auto; }
+  .sulmina-header__buy { display: none; }
+}
+@media (max-width: 767px) {
+  .sulmina-header .head-logo-row { min-height: 64px; }
+  .sulmina-header .sulmina-brand__image { width: 112px; height: 42px; }
+  .sulmina-site .page-header { padding-top: 38px !important; padding-bottom: 25px !important; }
+}
+@media (max-width: 960px) and (min-width: 768px) {
+  .sulmina-header .logo-container-col { text-align: left !important; }
+}
+@media (max-width: 960px) {
+  .sulmina-producer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .sulmina-producer-grid { grid-template-columns: 1fr; gap: 18px; }
+  .sulmina-placeholder--wide { min-height: 220px; }
+}
+
+/* Product cards are intentionally static: no image slide, zoom or content shift on hover. */
+.sulmina-home-product-card,
+.sulmina-home-product-card *,
+.sulmina-home-product-card::before,
+.sulmina-home-product-card::after,
+.sulmina-home-product-card *::before,
+.sulmina-home-product-card *::after {
+  transform: none !important;
+  translate: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Producers page: an editorial directory managed from the theme editor. */
+.sulmina-producers-page { background: var(--sul-creme); color: var(--sul-grafite); }
+.sulmina-producers-page__hero { display: flex; min-height: 320px; align-items: center; background: linear-gradient(160deg, #3C4A2E 0%, #5C6E4A 55%, #8C5A34 100%); color: var(--sul-papel); }
+.sulmina-producers-page__hero-inner { max-width: 760px; margin-right: auto; margin-left: auto; }
+.sulmina-producers-page__hero h1 { margin: 0 0 16px; color: var(--sul-papel); font-size: clamp(36px, 5vw, 58px); }
+.sulmina-producers-page__hero p { max-width: 620px; margin: 0; color: rgba(251,248,242,.9); font-size: 18px; line-height: 1.55; }
+.sulmina-producers-page__list { padding: clamp(48px, 7vw, 88px) 0; background: var(--sul-papel); }
+.sulmina-producer-story { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 40px; align-items: center; padding: 40px 0; border-bottom: 1px solid var(--sul-border); }
+.sulmina-producer-story:first-child { padding-top: 0; }
+.sulmina-producer-story:last-child { padding-bottom: 0; border-bottom: 0; }
+.sulmina-producer-story:nth-child(even) { direction: rtl; }
+.sulmina-producer-story:nth-child(even) > * { direction: ltr; }
+.sulmina-producer-story__image { display: block; width: 100%; min-height: 220px; aspect-ratio: 16 / 9; border-radius: var(--sul-radius); object-fit: cover; object-position: center; }
+.sulmina-producer-story__content h2 { margin: 0 0 4px; color: var(--sul-terracota); font-size: clamp(28px, 3vw, 40px); }
+.sulmina-producer-story__content > p:not(.sulmina-producer-story__location) { max-width: 650px; margin: 0 0 18px; font-size: 17px; line-height: 1.65; }
+.sulmina-producer-story__location { margin: 0 0 8px; color: rgba(46,38,32,.68); font-size: 14px; }
+.sulmina-producer-story__badge { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0 16px; padding: 5px 12px; border-radius: 20px; background: var(--sul-verde); color: var(--sul-papel); font-size: 12px; font-weight: 600; line-height: 1.3; }
+.sulmina-producer-story__content .sulmina-text-link { display: inline-block; }
+.sulmina-producers-page__cta { padding: clamp(56px, 8vw, 96px) 0; background: var(--sul-terracota); color: var(--sul-papel); text-align: center; }
+.sulmina-producers-page__cta-inner { max-width: 760px; }
+.sulmina-producers-page__cta h2 { margin: 0 0 14px; color: var(--sul-papel); font-size: clamp(30px, 4vw, 46px); }
+.sulmina-producers-page__cta p { max-width: 640px; margin: 0 auto 26px; color: rgba(251,248,242,.9); font-size: 17px; }
+
+/* Footer newsletter: native Nuvemshop form in a distinct Sulmina card. */
+.sulmina-footer-newsletter { max-width: 900px; margin: 0 auto; text-align: left; }
+.sulmina-footer-newsletter__card { padding: 30px clamp(20px, 4vw, 40px); border: 1px solid rgba(251,248,242,.2); border-radius: 16px; background: rgba(251,248,242,.08); }
+.sulmina-footer-newsletter__card h3 { margin: 0 0 8px; color: var(--sul-papel); font-size: clamp(28px, 4vw, 40px); }
+.sulmina-footer-newsletter__card > p { margin: 0 0 22px; color: rgba(251,248,242,.8); }
+.sulmina-footer-newsletter__fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 12px; align-items: end; }
+.sulmina-footer-newsletter__field label { display: block; margin: 0 0 6px; color: rgba(251,248,242,.82); font-size: 13px; font-weight: 600; }
+.sulmina-footer-newsletter__label--visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+.sulmina-footer-newsletter__field .form-control { min-height: 48px; border: 1px solid rgba(251,248,242,.25); background: rgba(251,248,242,.08); color: var(--sul-papel); }
+.sulmina-footer-newsletter__field .form-control::placeholder { color: rgba(251,248,242,.66); }
+.sulmina-footer-newsletter__submit { min-height: 48px; padding: 12px 22px; border: 0; border-radius: 7px; background: var(--sul-ouro); color: var(--sul-cafe); font-family: var(--sul-sans); font-weight: 700; white-space: nowrap; }
+.sulmina-footer-newsletter__submit:hover { background: #E4B25C; color: var(--sul-cafe); }
+.sulmina-footer-newsletter__feedback { margin: 18px 0 0; font-weight: 600; }
+.sulmina-footer-newsletter__feedback--success { color: #D9E6BF; }
+.sulmina-footer-newsletter__feedback--error { color: #F4B6A5; }
+
+/* Footer structure mirrors the reference site: brand/socials plus three navigation columns. */
+.sulmina-footer-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr)); gap: clamp(28px, 6vw, 84px); padding-bottom: 42px; border-bottom: 1px solid rgba(251,248,242,.16); text-align: left; }
+.sulmina-footer-col { min-width: 0; }
+.sulmina-footer-col--brand { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+.sulmina-footer-col--brand > a { display: inline-flex; }
+.sulmina-footer-col--brand img { width: 170px; height: auto; }
+.sulmina-footer-grid__social { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; }
+.sulmina-footer-col h3 { margin: 0 0 20px; color: var(--sul-papel); font-family: var(--sul-sans); font-size: 13px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.sulmina-footer-col ul { margin: 0; padding: 0; list-style: none; }
+.sulmina-footer-col li + li { margin-top: 16px; }
+.sulmina-footer-col a { color: rgba(251,248,242,.78); font-size: 15px; text-decoration: none; }
+.sulmina-footer-col a:hover { color: var(--sul-ouro); }
+.sulmina-footer-powered-by { color: rgba(251,248,242,.62); }
+.sulmina-footer-powered-by a { color: rgba(251,248,242,.72); }
+.sulmina-footer-legal { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; padding-top: 18px; text-align: left; }
+
+@media (max-width: 760px) {
+  .sulmina-producer-story, .sulmina-producer-story:nth-child(even) { grid-template-columns: 1fr; direction: ltr; gap: 24px; padding: 32px 0; }
+  .sulmina-producer-story__image { min-height: 0; }
+  .sulmina-footer-newsletter__fields { grid-template-columns: 1fr; }
+  .sulmina-footer-newsletter__submit { width: 100%; }
+  .sulmina-footer-grid { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
+  .sulmina-footer-col--brand { grid-column: 1 / -1; gap: 18px; }
+  .sulmina-footer-links--native .sulmina-footer-link-group ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sulmina-footer-brand { grid-template-columns: 1fr; gap: 24px; }
+  .sulmina-footer-brand__identity { align-items: flex-start; flex-direction: column; gap: 14px; }
+  .sulmina-footer-brand__social { gap: 18px; }
+  .sulmina-footer-links { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
+}
+
+@media (max-width: 680px) {
+  .sulmina-newsletter-page__hero { padding: 48px 0 64px; }
+  .sulmina-newsletter-page h1 { font-size: clamp(38px, 12vw, 54px); }
+  .sulmina-newsletter-page__description { font-size: 16px; }
+  .sulmina-newsletter-page__card { margin-top: 28px; padding: 22px 16px; }
+  .sulmina-newsletter-page__fields { grid-template-columns: 1fr; gap: 12px; }
+  .sulmina-newsletter-page__submit { width: 100%; }
+  .sulmina-footer-links--native .sulmina-footer-link-group ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 460px) {
+  .sulmina-footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .sulmina-footer-col--brand { grid-column: auto; }
+  .sulmina-footer-links { grid-template-columns: 1fr; gap: 28px; }
+}
+
+/* Final reference-footer alignment: keep the original proportions and hierarchy
+   while preserving the custom Sulmina newsletter above it. */
+.site-footer.sulmina-reference-footer,
+.js-footer.sulmina-reference-footer { padding: 64px 0 24px; }
+.sulmina-reference-footer .sulmina-footer-grid { grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); gap: 32px; margin-bottom: 48px; padding-bottom: 0; border-bottom: 0; }
+.sulmina-reference-footer .sulmina-footer-col--brand { gap: 0; }
+.sulmina-reference-footer .sulmina-footer-col--brand img { width: auto; height: 62px; }
+.sulmina-reference-footer .sulmina-footer-grid__social { gap: 14px; margin-top: 16px; }
+.sulmina-reference-footer .sulmina-footer-col h3 { margin: 0 0 16px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase !important; }
+.sulmina-reference-footer .sulmina-footer-col ul { margin: 0; padding: 0; list-style: none !important; }
+.sulmina-reference-footer .sulmina-footer-col li { margin: 0 0 10px; }
+.sulmina-reference-footer .sulmina-footer-col li + li { margin-top: 0; }
+.sulmina-reference-footer .sulmina-footer-col a { font-size: 14px; }
+.sulmina-reference-footer .sulmina-footer-powered-by { display: none !important; }
+.sulmina-reference-footer .sulmina-footer-legal { border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px; opacity: .7; font-size: 13px; }
+
+@media (max-width: 760px) {
+  .sulmina-reference-footer .sulmina-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .sulmina-reference-footer .sulmina-footer-col--brand { grid-column: auto; }
+}
+
+@media (max-width: 460px) {
+  .sulmina-reference-footer .sulmina-footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+/* Pre-launch landing page: content is editable from the Nuvemshop theme editor. */
+.sulmina-prelaunch-page,
+.sulmina-prelaunch-page *,
+.sulmina-prelaunch-page *::before,
+.sulmina-prelaunch-page *::after { box-sizing: border-box; }
+.sulmina-prelaunch-mode { background: var(--sul-creme); }
+.sulmina-prelaunch-mode .sulmina-header,
+.sulmina-prelaunch-mode .site-footer,
+.sulmina-prelaunch-mode .js-footer { display: none !important; }
+.sulmina-prelaunch-page { min-height: 100svh; background: var(--sul-creme); color: var(--sul-grafite); }
+.sulmina-prelaunch__frame { display: flex; min-height: 100svh; max-width: 1040px; margin: 0 auto; align-items: center; justify-content: center; }
+.sulmina-prelaunch__copy { display: flex; width: 100%; min-width: 0; min-height: 100svh; flex-direction: column; align-items: center; justify-content: flex-start !important; padding: 50px clamp(20px, 5vw, 72px) clamp(12px, 2vw, 24px); background: var(--sul-creme); color: var(--sul-grafite); text-align: center; }
+.sulmina-prelaunch__brand { display: inline-flex; width: fit-content; align-items: center; margin: 0 auto 24px; }
+.sulmina-prelaunch__brand img { display: block; width: 156px; height: auto; }
+.sulmina-prelaunch__content { width: min(100%, 620px); margin: 0 auto; padding: clamp(12px, 2.5vh, 24px) 0; text-align: center; }
+.sulmina-prelaunch__eyebrow { margin: 0 0 12px; color: var(--sul-terracota); font-size: 14px; font-weight: 600; }
+.sulmina-prelaunch__content h1 { max-width: 620px; margin: 0 auto 16px; color: var(--sul-cafe); font-family: var(--sul-serif); font-size: clamp(32px, 4vw, 54px); line-height: .98; letter-spacing: -.045em; }
+.sulmina-prelaunch__description { max-width: 560px; margin: 0 auto; color: var(--sul-grafite); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; }
+.sulmina-prelaunch__collection { max-width: 560px; margin: 20px auto 0; padding: 14px 20px 0; border-top: 2px solid var(--sul-ouro); color: var(--sul-terracota); font-family: var(--sul-serif); font-size: 17px; line-height: 1.35; }
+.sulmina-prelaunch__signup { width: min(100%, 520px); margin: 28px auto 0; }
+.sulmina-prelaunch__signup-title { margin: 0 0 14px; color: var(--sul-cafe); font-family: var(--sul-serif); font-size: clamp(24px, 2.4vw, 30px); line-height: 1.1; }
+.sulmina-prelaunch__field { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.sulmina-prelaunch__field + .sulmina-prelaunch__field { margin-top: 8px; }
+.sulmina-prelaunch__label { display: block; color: var(--sul-cafe); font-size: 14px; font-weight: 600; }
+.sulmina-prelaunch__label--visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.sulmina-prelaunch__form-row { display: flex; width: 100%; flex-direction: column; align-items: stretch; gap: 6px; }
+.sulmina-prelaunch__field input { min-width: 0; min-height: 48px; width: 100%; padding: 10px 16px; border: 1px solid rgba(74,44,24,.28); border-radius: 6px; background: var(--sul-papel); color: var(--sul-cafe); font: inherit; text-align: center; }
+.sulmina-prelaunch__field input:focus { border-color: var(--sul-terracota); outline: 3px solid rgba(214,154,62,.28); outline-offset: 2px; }
+.sulmina-prelaunch__form-row .sulmina-prelaunch__submit { width: 100%; min-height: 48px; padding: 10px 20px; border: 0; border-radius: 6px; background: var(--sul-ouro); color: var(--sul-cafe); cursor: pointer; font: inherit; font-weight: 700; white-space: nowrap; }
+.sulmina-prelaunch__form-row .sulmina-prelaunch__submit:hover { background: #B87F2E; }
+.sulmina-prelaunch__note { margin: 8px 0 0; color: rgba(46,38,32,.66); font-size: 12px; text-align: center; }
+.sulmina-prelaunch__feedback { margin: 16px 0 0; font-size: 14px; font-weight: 600; }
+.sulmina-prelaunch__feedback--success { color: var(--sul-verde); }
+.sulmina-prelaunch__feedback--error { color: #9C3D2C; }
+.sulmina-prelaunch__tagline { margin: auto auto 0; color: var(--sul-terracota); font-family: var(--sul-serif); font-size: 16px; }
+.sulmina-prelaunch__footer { width: 100%; min-height: 0; margin-top: 14px; padding: 0; border: 0; background: transparent !important; box-shadow: none; color: var(--sul-grafite); text-align: center; }
+.sulmina-prelaunch__password-access { width: min(100%, 320px); margin: 0 auto; color: rgba(46,38,32,.64); font-size: 12px; text-align: center; }
+.sulmina-prelaunch__password-access summary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 34px; padding: 7px 13px; border: 1px solid rgba(140,90,52,.28); border-radius: 999px; background: rgba(251,248,242,.48); color: var(--sul-terracota); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .1em; line-height: 1; list-style: none; text-transform: uppercase; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+.sulmina-prelaunch__password-access summary::before { width: 6px; height: 6px; border-radius: 50%; background: var(--sul-ouro); content: ''; }
+.sulmina-prelaunch__password-access summary:hover, .sulmina-prelaunch__password-access[open] summary { border-color: var(--sul-terracota); background: var(--sul-terracota); color: var(--sul-papel); }
+.sulmina-prelaunch__password-access[open] summary::before { background: var(--sul-papel); }
+.sulmina-prelaunch__password-access summary::-webkit-details-marker { display: none; }
+.sulmina-prelaunch__password-form { margin-top: 10px; text-align: left; }
+.sulmina-prelaunch__password-form .form-group { margin-bottom: 8px; }
+.sulmina-prelaunch__password-form label { font-size: 12px; }
+.sulmina-prelaunch__password-form input { min-height: 40px; }
+.sulmina-prelaunch__password-submit { width: 100%; min-height: 40px; border: 0; border-radius: 6px; background: var(--sul-ouro); color: var(--sul-cafe); cursor: pointer; font-weight: 700; }
+.sulmina-prelaunch__password-error { margin-top: 8px; color: #9C3D2C; font-size: 12px; }
+.sulmina-prelaunch-page--image { background-color: var(--sul-cafe); background-image: linear-gradient(90deg, rgba(34,20,12,.84), rgba(74,44,24,.42)), var(--sulmina-prelaunch-image); background-position: center; background-size: cover; color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__copy { background: transparent; color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__content h1,
+.sulmina-prelaunch-page--image .sulmina-prelaunch__signup-title,
+.sulmina-prelaunch-page--image .sulmina-prelaunch__label,
+.sulmina-prelaunch-page--image .sulmina-prelaunch__eyebrow { color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__description { color: rgba(251,248,242,.92); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__collection { border-color: var(--sul-ouro); color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__note { color: rgba(251,248,242,.78); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__tagline { color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__footer { color: rgba(251,248,242,.86); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__password-access { color: rgba(251,248,242,.78); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__password-access summary { border-color: rgba(251,248,242,.52); background: rgba(34,20,12,.25); color: var(--sul-papel); }
+.sulmina-prelaunch-page--image .sulmina-prelaunch__password-access summary:hover,
+.sulmina-prelaunch-page--image .sulmina-prelaunch__password-access[open] summary { border-color: var(--sul-ouro); background: var(--sul-ouro); color: var(--sul-cafe); }
+@media (max-width: 760px) {
+  .sulmina-prelaunch__frame { min-height: 100svh; }
+  .sulmina-prelaunch__copy { min-height: 100svh; padding: 50px 16px 12px; }
+  .sulmina-prelaunch__brand { margin-bottom: 18px; }
+  .sulmina-prelaunch__brand img { width: 144px; }
+  .sulmina-prelaunch__content { padding: 14px 0 16px; }
+  .sulmina-prelaunch__content h1 { font-size: clamp(29px, 8.8vw, 43px); }
+  .sulmina-prelaunch__description { font-size: 16px; line-height: 1.35; }
+  .sulmina-prelaunch__collection { margin-top: 16px; padding: 12px 10px 0; font-size: 16px; }
+  .sulmina-prelaunch__signup { margin-top: 22px; }
+  .sulmina-prelaunch__note { margin-top: 6px; font-size: 11px; }
+  .sulmina-prelaunch__tagline { margin-top: 10px; font-size: 14px; }
+  .sulmina-prelaunch__form-row { flex-direction: column; }
+  .sulmina-prelaunch__form-row .sulmina-prelaunch__submit { width: 100%; }
+}
+@media (max-height: 850px) {
+  .sulmina-prelaunch__copy { height: auto; min-height: 100svh; overflow: visible; padding-top: 50px; padding-bottom: 8px; }
+  .sulmina-prelaunch__brand img { width: 138px; }
+  .sulmina-prelaunch__content { padding-top: 6px; padding-bottom: 6px; }
+  .sulmina-prelaunch__eyebrow { margin-bottom: 8px; font-size: 13px; }
+  .sulmina-prelaunch__content h1 { margin-bottom: 10px; font-size: clamp(27px, 4vw, 45px); }
+  .sulmina-prelaunch__description { font-size: 16px; line-height: 1.3; }
+  .sulmina-prelaunch__collection { margin-top: 12px; padding-top: 9px; font-size: 15px; line-height: 1.25; }
+  .sulmina-prelaunch__signup { margin-top: 16px; }
+  .sulmina-prelaunch__signup-title { margin-bottom: 8px; font-size: 25px; }
+  .sulmina-prelaunch__field { gap: 4px; }
+  .sulmina-prelaunch__field + .sulmina-prelaunch__field { margin-top: 5px; }
+  .sulmina-prelaunch__label { font-size: 13px; }
+  .sulmina-prelaunch__field input,
+  .sulmina-prelaunch__form-row .sulmina-prelaunch__submit { min-height: 44px; padding-top: 8px; padding-bottom: 8px; }
+  .sulmina-prelaunch__note { margin-top: 4px; font-size: 11px; }
+  .sulmina-prelaunch__tagline { margin-top: 8px; }
+}
+
+/* Editor-driven palette for each Sulmina home module. */
+.sulmina-hero:not(.sulmina-hero--image) { background: linear-gradient(135deg, var(--sul-hero-bg), var(--sul-hero-accent)); }
+.sulmina-hero.sulmina-hero--image { background-color: var(--sul-hero-bg); }
+.sulmina-hero h1 { color: var(--sul-hero-title); }
+.sulmina-hero__lead { color: var(--sul-hero-text); }
+.sulmina-hero .sulmina-button--gold { background: var(--sul-hero-accent); color: var(--sul-hero-card); }
+.sulmina-hero .sulmina-button--gold:hover { background: var(--sul-hero-accent); color: var(--sul-hero-card); filter: brightness(1.08); }
+.sulmina-hero .sulmina-button--outline { border-color: var(--sul-hero-accent); color: var(--sul-hero-text); }
+.sulmina-hero .sulmina-button--outline:hover { background: var(--sul-hero-accent); color: var(--sul-hero-card); }
+
+.sulmina-trust { background: var(--sul-trust-bg); color: var(--sul-trust-text); }
+.sulmina-trust__item { background: var(--sul-trust-card); border-color: color-mix(in srgb, var(--sul-trust-accent) 24%, transparent); }
+.sulmina-trust__item strong { color: var(--sul-trust-title); }
+.sulmina-trust__item > span:last-child { color: var(--sul-trust-text); }
+.sulmina-trust .sulmina-differential-icon { color: var(--sul-trust-accent); }
+
+.sulmina-producers { background: var(--sul-producers-bg); color: var(--sul-producers-text); }
+.sulmina-producers .sulmina-section-heading h2 { color: var(--sul-producers-title); }
+.sulmina-producers .sulmina-section-heading--center > p { color: var(--sul-producers-text); }
+.sulmina-producer-card { background: var(--sul-producers-card); border-color: color-mix(in srgb, var(--sul-producers-accent) 24%, transparent); }
+.sulmina-producer-card h3 { color: var(--sul-producers-title); }
+.sulmina-producer-card > span { color: var(--sul-producers-text); }
+.sulmina-producer-card p { color: var(--sul-producers-accent); }
+.sulmina-producers .sulmina-text-link { color: var(--sul-producers-accent); border-color: var(--sul-producers-accent); }
+
+.sulmina-products { background: var(--sul-products-bg); color: var(--sul-products-text); }
+.sulmina-products .sulmina-section-heading h2 { color: var(--sul-products-title); }
+.sulmina-home-product-card { background: var(--sul-products-card); color: var(--sul-products-text); border-color: color-mix(in srgb, var(--sul-products-accent) 24%, transparent); }
+.sulmina-home-product-card__name, .sulmina-home-product-card__price { color: var(--sul-products-title); }
+.sulmina-home-product-card__producer { color: var(--sul-products-accent); }
+.sulmina-home-product-card__tags span { background: var(--sul-products-bg); color: var(--sul-products-text); }
+.sulmina-home-product-card__button { background: var(--sul-products-accent); color: var(--sul-products-card) !important; }
+.sulmina-home-product-card__button:hover { background: var(--sul-products-accent); color: var(--sul-products-card) !important; filter: brightness(.92); }
+
+.sulmina-process { background: var(--sul-process-bg); color: var(--sul-process-text); }
+.sulmina-process .sulmina-section-heading h2 { color: var(--sul-process-title); }
+.sulmina-process__item { background: var(--sul-process-card); }
+.sulmina-process__item > span { background: var(--sul-process-accent); color: var(--sul-process-card); }
+.sulmina-process__item h3 { color: var(--sul-process-title); }
+.sulmina-process__item p { color: var(--sul-process-text); }
+.sulmina-process .sulmina-button--gold { background: var(--sul-process-accent); color: var(--sul-process-card); }
+
+.sulmina-story--feature { background: var(--sul-story-bg); color: var(--sul-story-text); }
+.sulmina-story--feature h2 { color: var(--sul-story-title); }
+.sulmina-story--feature .sulmina-story__text p { color: var(--sul-story-text); }
+.sulmina-story--feature .sulmina-text-link { color: var(--sul-story-accent); border-color: var(--sul-story-accent); }
+.sulmina-story--feature .sulmina-placeholder--wide { background: var(--sul-story-card); color: var(--sul-story-accent); }
+
+/* Nossa História: same four-part editorial rhythm as the Sulmina reference page. */
+.sulmina-story-page { background: var(--sul-papel); color: var(--sul-grafite); }
+.sulmina-story-page__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 360px;
+  max-height: 680px;
+  overflow: hidden;
+  background: var(--sul-creme);
+}
+.sulmina-story-page__image-file { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sulmina-story-page__placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: rgba(74, 44, 24, .72);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+.sulmina-story-page__intro { padding: clamp(62px, 8vw, 92px) 24px; background: var(--sul-papel); }
+.sulmina-story-page__narrow { width: min(720px, 100%); margin: 0 auto; text-align: center; }
+.sulmina-story-page__intro h1 {
+  margin: 0 0 24px;
+  color: var(--sul-cafe);
+  font-size: clamp(38px, 5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+.sulmina-story-page__intro p {
+  margin: 0 auto;
+  color: var(--sul-grafite);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.7;
+}
+.sulmina-story-page__values { padding: clamp(60px, 7vw, 82px) 0; background: var(--sul-creme); }
+.sulmina-story-page__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.sulmina-story-page__card {
+  padding: clamp(26px, 3vw, 34px);
+  border: 1px solid var(--sul-border);
+  border-radius: 10px;
+  background: var(--sul-papel);
+  box-shadow: 0 8px 20px rgba(74, 44, 24, .04);
+}
+.sulmina-story-page__card h2 {
+  margin: 0 0 14px;
+  color: var(--sul-cafe);
+  font-size: clamp(24px, 3vw, 31px);
+  font-weight: 600;
+}
+.sulmina-story-page__card p { margin: 0; color: var(--sul-grafite); font-size: 17px; line-height: 1.65; }
+.sulmina-story-page__cta { padding: clamp(64px, 8vw, 96px) 24px; background: var(--sul-papel); text-align: center; }
+.sulmina-story-page__cta h2 { margin: 0 0 24px; color: var(--sul-terracota); font-size: clamp(30px, 4vw, 44px); }
+.sulmina-story-page__cta .sulmina-button { min-width: 232px; }
+
+/* Help and legal pages: full-bleed Sulmina editorial frame around
+   content that remains managed from Nuvemshop Pages. */
+.sulmina-help-page {
+  --sul-help-ink: var(--sul-grafite);
+  --sul-help-muted: rgba(46, 38, 32, .72);
+  background: var(--sul-creme);
+  color: var(--sul-help-ink);
+}
+.sulmina-help-page__hero {
+  position: relative;
+  display: flex;
+  min-height: clamp(230px, 28vw, 360px);
+  align-items: flex-end;
+  overflow: hidden;
+  padding: clamp(54px, 8vw, 108px) 0 clamp(42px, 6vw, 76px);
+  background:
+    radial-gradient(circle at 88% 20%, rgba(214, 154, 62, .34), transparent 34%),
+    linear-gradient(112deg, #3c2114 0%, var(--sul-cafe) 58%, #75421f 100%);
+  color: var(--sul-papel);
+}
+.sulmina-help-page__hero::before {
+  position: absolute;
+  right: -8vw;
+  bottom: -18vw;
+  width: 46vw;
+  height: 46vw;
+  border: 1px solid rgba(251, 248, 242, .16);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+}
+.sulmina-help-page__hero-inner {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 48px);
+  max-width: var(--sul-max);
+  margin: 0 auto;
+}
+.sulmina-help-page__eyebrow {
+  margin: 0 0 18px;
+  color: var(--sul-ouro);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.sulmina-help-page__hero h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--sul-papel);
+  font-family: var(--sul-serif);
+  font-size: clamp(42px, 6vw, 76px);
+  font-weight: 400;
+  letter-spacing: -.045em;
+  line-height: .98;
+}
+.sulmina-help-page__hero-line {
+  display: block;
+  width: 86px;
+  height: 3px;
+  margin-top: 28px;
+  background: var(--sul-ouro);
+}
+.sulmina-help-page__body {
+  padding: clamp(54px, 8vw, 104px) 0 clamp(76px, 10vw, 132px);
+}
+.sulmina-help-page__body > .container {
+  width: calc(100% - 48px);
+  max-width: var(--sul-max);
+  padding-right: 0;
+  padding-left: 0;
+}
+.sulmina-help-page__content {
+  max-width: 860px;
+  margin: 0 auto;
+  color: var(--sul-help-ink);
+  font-size: 16px;
+  line-height: 1.78;
+}
+.sulmina-help-page__content p {
+  max-width: 74ch;
+  margin: 0 0 1.25rem;
+  color: var(--sul-help-ink);
+  font-size: inherit;
+  line-height: inherit;
+}
+.sulmina-help-page__content p:empty,
+.sulmina-help-page__content p:has(> br:only-child) { min-height: .7rem; margin-bottom: 0; }
+.sulmina-help-page__content a {
+  color: var(--sul-terracota);
+  text-decoration-color: var(--sul-ouro);
+  text-underline-offset: 3px;
+}
+.sulmina-help-page__content ul,
+.sulmina-help-page__content ol {
+  max-width: 74ch;
+  margin: 1.2rem 0 2rem;
+  padding-left: 1.45rem;
+}
+.sulmina-help-page__content li { margin-bottom: .65rem; }
+.sulmina-help-page__content img {
+  width: auto;
+  max-width: 100%;
+  max-height: 44px;
+  margin: .35rem .35rem .2rem 0;
+  vertical-align: middle;
+  object-fit: contain;
+}
+.sulmina-help-page__content strong { color: var(--sul-cafe); }
+.sulmina-help-page--faq .sulmina-help-page__content > p:first-child {
+  max-width: 56ch;
+  margin-bottom: 2.4rem;
+  color: var(--sul-terracota);
+  font-family: var(--sul-serif);
+  font-size: clamp(22px, 3vw, 31px);
+  line-height: 1.15;
+}
+.sulmina-help-page--faq .sulmina-help-page__content p:has(> strong) {
+  margin-top: 2.1rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--sul-border);
+  color: var(--sul-terracota);
+  font-size: 18px;
+  line-height: 1.35;
+}
+.sulmina-help-page--faq .sulmina-help-page__content p:has(> strong) + p {
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--sul-ouro);
+  color: var(--sul-help-muted);
+}
+.sulmina-help-page__content .privacy-policy {
+  max-width: 860px;
+}
+.sulmina-help-page__content .privacy-policy > p:first-child {
+  margin-bottom: 2.2rem;
+  color: var(--sul-help-muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.sulmina-help-page__content .privacy-policy > ol {
+  margin-top: 2.8rem;
+  padding-left: 1.65rem;
+}
+.sulmina-help-page__content .privacy-policy > ol > li {
+  margin: 2.8rem 0 0;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--sul-border);
+  color: var(--sul-terracota);
+  font-family: var(--sul-serif);
+  font-size: clamp(23px, 3vw, 32px);
+  line-height: 1.15;
+}
+.sulmina-help-page__content .privacy-policy > ol > li:first-child { margin-top: 0; }
+.sulmina-help-page__content .privacy-policy > ol > li > ol {
+  margin: 1.2rem 0 0;
+  padding-left: 1.35rem;
+}
+.sulmina-help-page__content .privacy-policy > ol > li > ol > li {
+  color: var(--sul-help-ink);
+  font-family: var(--sul-sans);
+  font-size: 16px;
+  line-height: 1.78;
+}
+.sulmina-help-page--terms .sulmina-help-page__content > p:first-child,
+.sulmina-help-page--returns .sulmina-help-page__content > p:first-child { display: none; }
+.sulmina-help-page--contact .contact-page {
+  margin-bottom: 0 !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.sulmina-help-page--contact .contact-page > .container {
+  width: calc(100% - 48px);
+  max-width: var(--sul-max);
+  padding-right: 0;
+  padding-left: 0;
+}
+.sulmina-contact-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, .78fr) minmax(0, 1.22fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: stretch;
+}
+.sulmina-contact-aside {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px, 4vw, 52px) clamp(24px, 4vw, 44px);
+  background: var(--sul-cafe);
+  color: var(--sul-papel);
+}
+.sulmina-contact-aside::after {
+  position: absolute;
+  right: -84px;
+  bottom: -96px;
+  width: 220px;
+  height: 220px;
+  border: 1px solid rgba(251, 248, 242, .18);
+  border-radius: 50%;
+  content: '';
+}
+.sulmina-contact-aside__eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 18px;
+  color: var(--sul-ouro);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.sulmina-contact-aside h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 18px;
+  color: var(--sul-papel);
+  font-family: var(--sul-serif);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+.sulmina-contact-aside__intro,
+.sulmina-contact-aside__details,
+.sulmina-contact-aside__faq {
+  position: relative;
+  z-index: 1;
+}
+.sulmina-contact-aside__intro {
+  max-width: 34ch;
+  margin: 0;
+  color: rgba(251, 248, 242, .82);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.sulmina-contact-aside__details {
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(251, 248, 242, .2);
+}
+.sulmina-contact-aside__details p { color: rgba(251, 248, 242, .76); line-height: 1.55; }
+.sulmina-contact-aside__details ul { margin: 0; padding: 0; list-style: none; }
+.sulmina-contact-aside__details li { margin-bottom: 11px !important; }
+.sulmina-contact-aside__details a,
+.sulmina-contact-aside__details svg { color: var(--sul-papel); }
+.sulmina-contact-aside__faq {
+  display: inline-block;
+  margin-top: 28px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--sul-ouro);
+  color: var(--sul-papel);
+  font-size: 14px;
+  text-decoration: none;
+}
+.sulmina-contact-aside__faq:hover { color: var(--sul-ouro); }
+.sulmina-contact-form-panel {
+  align-self: start;
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid var(--sul-border);
+  background: var(--sul-papel);
+  box-shadow: 0 18px 42px rgba(74, 44, 24, .08);
+}
+.sulmina-contact-form-panel .form-group { margin-bottom: 20px !important; }
+.sulmina-contact-form-panel label {
+  margin-bottom: 8px;
+  color: var(--sul-cafe);
+  font-size: 13px;
+  font-weight: 700;
+}
+.sulmina-contact-form-panel .form-control {
+  min-height: 50px;
+  border: 1px solid rgba(74, 44, 24, .22);
+  background: var(--sul-creme);
+  color: var(--sul-cafe);
+}
+.sulmina-contact-form-panel textarea.form-control { min-height: 150px; }
+.sulmina-contact-form-panel .btn-block {
+  min-height: 50px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--sul-ouro);
+  color: var(--sul-cafe);
+  font-weight: 700;
+}
+.sulmina-contact-form-panel .btn-block:hover { background: var(--sul-ouro); color: var(--sul-cafe); filter: brightness(1.06); }
+.sulmina-account-page__body > .container {
+  width: calc(100% - 48px);
+  max-width: var(--sul-max);
+  padding-right: 0;
+  padding-left: 0;
+}
+.sulmina-account-page__layout {
+  display: grid;
+  grid-template-columns: minmax(250px, .78fr) minmax(0, 1.22fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: stretch;
+}
+.sulmina-account-page__intro {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px, 4vw, 52px) clamp(24px, 4vw, 44px);
+  background: var(--sul-terracota);
+  color: var(--sul-papel);
+}
+.sulmina-account-page__intro::after {
+  position: absolute;
+  right: -84px;
+  bottom: -96px;
+  width: 220px;
+  height: 220px;
+  border: 1px solid rgba(251, 248, 242, .2);
+  border-radius: 50%;
+  content: '';
+}
+.sulmina-account-page__intro-eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 18px;
+  color: var(--sul-ouro);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.sulmina-account-page__intro h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 18px;
+  color: var(--sul-papel);
+  font-family: var(--sul-serif);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+.sulmina-account-page__intro > p:not(.sulmina-account-page__intro-eyebrow) {
+  position: relative;
+  z-index: 1;
+  max-width: 34ch;
+  color: rgba(251, 248, 242, .84);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.sulmina-account-page__note {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(251, 248, 242, .22);
+}
+.sulmina-account-page__note span { color: var(--sul-ouro); font-size: 12px; line-height: 1.7; }
+.sulmina-account-page__note p { margin: 0; color: rgba(251, 248, 242, .76); font-size: 14px; line-height: 1.55; }
+.sulmina-account-page__form-panel {
+  align-self: start;
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid var(--sul-border);
+  background: var(--sul-papel);
+  box-shadow: 0 18px 42px rgba(74, 44, 24, .08);
+}
+.sulmina-account-page__form-intro {
+  max-width: 34ch;
+  margin: 0 0 26px;
+  color: var(--sul-cafe);
+  font-family: var(--sul-serif);
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.12;
+}
+.sulmina-account-page__form-panel .form-group { margin-bottom: 18px; }
+.sulmina-account-page__form-panel label { margin-bottom: 8px; color: var(--sul-cafe); font-size: 13px; font-weight: 700; }
+.sulmina-account-page__form-panel .form-control {
+  min-height: 50px;
+  border: 1px solid rgba(74, 44, 24, .22);
+  background: var(--sul-creme);
+  color: var(--sul-cafe);
+}
+.sulmina-account-page__form-panel .btn-primary {
+  min-height: 50px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--sul-ouro);
+  color: var(--sul-cafe);
+  font-weight: 700;
+}
+.sulmina-account-page__form-panel .btn-primary:hover { background: var(--sul-ouro); color: var(--sul-cafe); filter: brightness(1.06); }
+.sulmina-account-page__form-panel a { color: var(--sul-terracota); text-decoration-color: var(--sul-ouro); text-underline-offset: 3px; }
+.sulmina-account-page__form-panel .btn-secondary { border-color: var(--sul-border); background: var(--sul-creme); color: var(--sul-cafe); }
+.sulmina-account-page--dashboard .sulmina-account-page__body { padding-top: clamp(42px, 6vw, 76px); }
+.sulmina-account-dashboard__lead {
+  max-width: 650px;
+  margin-bottom: 38px;
+}
+.sulmina-account-dashboard__eyebrow {
+  margin: 0 0 14px;
+  color: var(--sul-terracota);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.sulmina-account-dashboard__lead h2 {
+  margin: 0 0 12px;
+  color: var(--sul-cafe);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+.sulmina-account-dashboard__lead > p:last-child {
+  max-width: 56ch;
+  margin: 0;
+  color: var(--sul-help-muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.sulmina-account-dashboard__grid { margin-right: 0; margin-left: 0; }
+.sulmina-account-dashboard__summary {
+  align-self: start;
+  padding: 30px 28px;
+  background: var(--sul-terracota);
+  color: var(--sul-papel);
+}
+.sulmina-account-dashboard__summary h6 {
+  color: var(--sul-papel);
+  font-family: var(--sul-sans);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.sulmina-account-dashboard__summary .btn-link,
+.sulmina-account-dashboard__summary a { color: var(--sul-papel); text-decoration-color: var(--sul-ouro); }
+.sulmina-account-dashboard__summary p,
+.sulmina-account-dashboard__summary strong { color: rgba(251, 248, 242, .9); }
+.sulmina-account-dashboard__summary .btn-default {
+  border: 1px solid rgba(251, 248, 242, .62);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--sul-papel);
+}
+.sulmina-account-dashboard__summary .btn-default:hover { background: rgba(251, 248, 242, .12); color: var(--sul-papel); }
+.sulmina-account-dashboard__orders { padding-right: 0; }
+.sulmina-account-dashboard__orders > h6 {
+  margin-bottom: 18px !important;
+  padding: 0 !important;
+  color: var(--sul-cafe);
+  font-family: var(--sul-serif);
+  font-size: 28px;
+  font-weight: 400;
+}
+.sulmina-account-dashboard__orders .card {
+  border: 1px solid var(--sul-border);
+  border-radius: 0;
+  background: var(--sul-papel);
+  box-shadow: 0 12px 30px rgba(74, 44, 24, .06);
+}
+.sulmina-account-dashboard__orders .card-header,
+.sulmina-account-dashboard__orders .card-footer { border-color: var(--sul-border); background: transparent; }
+.sulmina-account-dashboard__orders .card-body { color: var(--sul-help-muted); }
+.sulmina-account-dashboard__orders .card-img-square-container { background: var(--sul-creme); }
+.sulmina-account-dashboard__orders .btn-primary { background: var(--sul-ouro); color: var(--sul-cafe); }
+.sulmina-account-page__simple-body { padding-top: clamp(44px, 7vw, 86px); }
+.sulmina-account-page__simple-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+}
+.sulmina-account-page__simple-intro {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px, 4vw, 52px) clamp(24px, 4vw, 44px);
+  background: var(--sul-cafe);
+  color: var(--sul-papel);
+}
+.sulmina-account-page__simple-intro::after {
+  position: absolute;
+  right: -80px;
+  bottom: -90px;
+  width: 210px;
+  height: 210px;
+  border: 1px solid rgba(251, 248, 242, .16);
+  border-radius: 50%;
+  content: '';
+}
+.sulmina-account-page__simple-intro .sulmina-account-page__intro-eyebrow,
+.sulmina-account-page__simple-intro h2,
+.sulmina-account-page__simple-intro p { position: relative; z-index: 1; }
+.sulmina-account-page__simple-intro h2 {
+  margin: 0 0 18px;
+  color: var(--sul-papel);
+  font-family: var(--sul-serif);
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+.sulmina-account-page__simple-intro > p:last-child { color: rgba(251, 248, 242, .8); line-height: 1.65; }
+.sulmina-account-page__form-panel,
+.sulmina-account-page__address-panel {
+  min-width: 0;
+}
+.sulmina-account-page__address-panel { padding: 30px; border: 1px solid var(--sul-border); background: var(--sul-papel); box-shadow: 0 18px 42px rgba(74, 44, 24, .08); }
+.sulmina-account-page__address-panel .card { border: 1px solid var(--sul-border); border-radius: 0; background: var(--sul-creme); }
+.sulmina-account-page__address-panel h6 { color: var(--sul-cafe); font-family: var(--sul-sans); }
+.sulmina-account-page__address-panel .btn-link { color: var(--sul-terracota); text-decoration-color: var(--sul-ouro); }
+.sulmina-account-page__address-panel .row { margin-right: -8px; margin-left: -8px; }
+.sulmina-account-page--order .sulmina-account-page__body > .container { padding: 30px; border: 1px solid var(--sul-border); background: var(--sul-papel); box-shadow: 0 18px 42px rgba(74, 44, 24, .06); }
+.sulmina-account-page--order .account-page h6,
+.sulmina-account-page--order .account-page h5 { color: var(--sul-cafe); }
+.sulmina-account-page--order .account-page .card { border-color: var(--sul-border); border-radius: 0; }
+.sulmina-help-page__content .sulmina-help-subheading {
+  max-width: 62ch;
+  margin-top: 2.45rem;
+  margin-bottom: .55rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--sul-border);
+  color: var(--sul-terracota);
+  font-family: var(--sul-serif);
+  font-size: clamp(22px, 3vw, 31px);
+  line-height: 1.15;
+}
+
+@media (max-width: 760px) {
+  .sulmina-help-page__hero { min-height: 220px; padding: 54px 0 42px; }
+  .sulmina-help-page__hero-inner,
+  .sulmina-help-page__body > .container { width: calc(100% - 32px); }
+  .sulmina-help-page__eyebrow { margin-bottom: 14px; font-size: 11px; }
+  .sulmina-help-page__hero h1 { font-size: clamp(38px, 12vw, 58px); }
+  .sulmina-help-page__hero-line { margin-top: 22px; }
+  .sulmina-help-page__body { padding: 42px 0 76px; }
+  .sulmina-help-page--contact .contact-page > .container { width: calc(100% - 32px); }
+  .sulmina-contact-layout { grid-template-columns: 1fr; gap: 24px; }
+  .sulmina-contact-aside { padding: 30px 24px 34px; }
+  .sulmina-contact-form-panel { padding: 22px 18px; }
+  .sulmina-account-page__body > .container { width: calc(100% - 32px); }
+  .sulmina-account-page__layout { grid-template-columns: 1fr; gap: 24px; }
+  .sulmina-account-page__intro { padding: 30px 24px 34px; }
+  .sulmina-account-page__form-panel { padding: 22px 18px; }
+  .sulmina-account-page__form-intro { font-size: 24px; }
+  .sulmina-account-dashboard__lead { margin-bottom: 28px; }
+  .sulmina-account-dashboard__summary { margin-bottom: 24px; padding: 26px 22px; }
+  .sulmina-account-dashboard__orders { padding-left: 0; }
+  .sulmina-account-dashboard__orders > h6 { font-size: 25px; }
+  .sulmina-account-page__simple-grid { grid-template-columns: 1fr; gap: 24px; }
+  .sulmina-account-page__simple-intro { padding: 30px 24px 34px; }
+  .sulmina-account-page__address-panel { padding: 20px 14px; }
+  .sulmina-account-page--order .sulmina-account-page__body > .container { padding: 20px 16px; }
+  .sulmina-story-page__image { min-height: 260px; aspect-ratio: 4 / 3; }
+  .sulmina-story-page__intro { padding: 50px 20px 56px; }
+  .sulmina-story-page__intro p { font-size: 16px; line-height: 1.65; }
+  .sulmina-story-page__values { padding: 42px 0; }
+  .sulmina-story-page__grid { grid-template-columns: 1fr; gap: 18px; }
+  .sulmina-story-page__card { padding: 24px; }
+  .sulmina-story-page__card p { font-size: 16px; }
+  .sulmina-help-page__content { font-size: 15px; line-height: 1.7; }
+  .sulmina-help-page--faq .sulmina-help-page__content p:has(> strong) { font-size: 17px; }
+  .sulmina-help-page--faq .sulmina-help-page__content p:has(> strong) + p { padding-left: .9rem; }
+  .sulmina-help-page__content .privacy-policy > ol > li { font-size: 24px; }
+  .sulmina-help-page__content .privacy-policy > ol > li > ol > li { font-size: 15px; }
+  .sulmina-help-page__content .sulmina-help-subheading { font-size: 24px; }
+}
+
+/* Product heading: keep the name and breadcrumb on the quiet paper background,
+   so the package photograph remains the visual focus. */
+.sulmina-product-page .page-header {
+  margin: 0 0 20px;
+  padding: 0 0 14px !important;
+  background: transparent !important;
+  color: var(--sul-grafite);
+  text-align: left;
+}
+.sulmina-product-page .page-header .breadcrumb,
+.sulmina-product-page .page-header .breadcrumb a {
+  color: rgba(46, 38, 32, .68) !important;
+  font-family: var(--sul-sans);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.sulmina-product-page .page-header .breadcrumb { margin: 0 0 16px; }
+.sulmina-product-page .page-header .sulmina-product-title {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--sul-cafe) !important;
+  font-family: var(--sul-serif);
+  font-size: clamp(30px, 3.15vw, 44px) !important;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.1 !important;
+  overflow-wrap: normal;
+  text-wrap: pretty;
+}
+.sulmina-product-page [data-store^="product-info-"] { min-width: 0; padding-top: 0; background: transparent; }
+.sulmina-product-page .price-container { margin-top: 24px; text-align: left !important; }
+.sulmina-product-page .price-container .js-price-container { margin-bottom: 14px !important; }
+.sulmina-product-page .price-container #price_display {
+  display: inline-block;
+  padding: 0 0 7px;
+  border-bottom: 3px solid var(--sul-ouro);
+  color: var(--sul-cafe);
+  font-family: var(--sul-sans);
+  font-size: clamp(30px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+.sulmina-product-page .price-container .price-compare { margin-left: 12px; color: rgba(46,38,32,.56); font-size: 17px; }
+.sulmina-product-page .js-product-payments-container { margin-top: 12px; margin-bottom: 16px !important; color: rgba(46,38,32,.8); }
+.sulmina-product-page .js-product-discount-container { color: var(--sul-grafite); }
+.sulmina-product-page .js-product-promo-container { margin-top: 16px; }
+.sulmina-product-page .js-prod-submit-form { min-height: 54px; font-size: 16px; letter-spacing: .01em; }
+@media (max-width: 760px) {
+  .sulmina-product-page .page-header { margin-bottom: 16px; padding-bottom: 10px !important; }
+  .sulmina-product-page .page-header .breadcrumb { margin-bottom: 12px; }
+  .sulmina-product-page .page-header .sulmina-product-title { font-size: clamp(28px, 8vw, 36px) !important; }
+  .sulmina-product-page .price-container { margin-top: 18px; }
+  .sulmina-product-page .price-container #price_display { font-size: 32px; }
+}
