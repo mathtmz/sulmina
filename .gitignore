@@ -1,4 +1,7 @@
-.DS_Store
-Thumbs.db
+.nuvem
+*.nuvem
+.env
+.env.*
+!.env.example
 node_modules/
-.claude/
+
