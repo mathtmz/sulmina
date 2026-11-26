@@ -1079,7 +1079,7 @@ Página de inicio
 		title = Módulo 3 — Quem faz o seu café
 		backto = home_order_position
 	description
-		description = Personalize o título, a apresentação, os quatro produtores, suas fotos e o link da seção.
+		description = Cadastre até oito produtores. O nome preenchido ativa o perfil; os dados são compartilhados pela home, página de produtores e cartões de produto.
 	subtitle
 		subtitle = Cores do módulo
 	color
@@ -1113,95 +1113,248 @@ Página de inicio
 		description = Link dos produtores
 	subtitle
 		subtitle = Produtor 1
+	i18n_input
+		name = home_producer_01_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
 	image
 		original = home_producer_01.jpg
-		title = Foto do produtor 1
+		title = Logo ou foto quadrada do produtor 1
 		width = 600
 		height = 600
 	i18n_input
 		name = home_producer_01_name
-		description = Nome
+		description = Nome (preencha para exibir este perfil)
 	i18n_input
 		name = home_producer_01_location
 		description = Localização
 	i18n_input
 		name = home_producer_01_quote
 		description = Frase
+	image
+		original = home_producer_01_cover.jpg
+		title = Foto de capa do produtor 1
+		width = 1200
+		height = 675
 	subtitle
 		subtitle = Produtor 2
+	i18n_input
+		name = home_producer_02_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
 	image
 		original = home_producer_02.jpg
-		title = Foto do produtor 2
+		title = Logo ou foto quadrada do produtor 2
 		width = 600
 		height = 600
 	i18n_input
 		name = home_producer_02_name
-		description = Nome
+		description = Nome (preencha para exibir este perfil)
 	i18n_input
 		name = home_producer_02_location
 		description = Localização
 	i18n_input
 		name = home_producer_02_quote
 		description = Frase
+	image
+		original = home_producer_02_cover.jpg
+		title = Foto de capa do produtor 2
+		width = 1200
+		height = 675
 	subtitle
 		subtitle = Produtor 3
+	i18n_input
+		name = home_producer_03_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
 	image
 		original = home_producer_03.jpg
-		title = Foto do produtor 3
+		title = Logo ou foto quadrada do produtor 3
 		width = 600
 		height = 600
 	i18n_input
 		name = home_producer_03_name
-		description = Nome
+		description = Nome (preencha para exibir este perfil)
 	i18n_input
 		name = home_producer_03_location
 		description = Localização
 	i18n_input
 		name = home_producer_03_quote
 		description = Frase
+	image
+		original = home_producer_03_cover.jpg
+		title = Foto de capa do produtor 3
+		width = 1200
+		height = 675
 	subtitle
 		subtitle = Produtor 4
+	i18n_input
+		name = home_producer_04_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
 	image
 		original = home_producer_04.jpg
-		title = Foto do produtor 4
+		title = Logo ou foto quadrada do produtor 4
 		width = 600
 		height = 600
 	i18n_input
 		name = home_producer_04_name
-		description = Nome
+		description = Nome (preencha para exibir este perfil)
 	i18n_input
 		name = home_producer_04_location
 		description = Localização
 	i18n_input
 		name = home_producer_04_quote
 		description = Frase
-	collapse
-		title = Módulo 4 — Nossos cafés
-		backto = home_order_position
-	description
-		description = O catálogo, preços, estoque e fotos dos produtos continuam vindo da Nuvemshop. Edite aqui apenas o título e o link.
+	image
+		original = home_producer_04_cover.jpg
+		title = Foto de capa do produtor 4
+		width = 1200
+		height = 675
 	subtitle
-		subtitle = Cores do módulo
-	color
-		name = sulmina_products_background_color
-		description = Fundo do módulo
-	color
-		name = sulmina_products_title_color
-		description = Cor dos títulos
-	color
-		name = sulmina_products_text_color
-		description = Cor dos textos
-	color
-		name = sulmina_products_card_color
-		description = Fundo dos cards
-	color
-		name = sulmina_products_accent_color
-		description = Cor de destaque e botões
-	collapse
-		title = Página Nossos Produtores
-		backto = home_order_position
+		subtitle = Produtor 5
+	i18n_input
+		name = home_producer_05_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
+	image
+		original = home_producer_05.jpg
+		title = Logo ou foto quadrada do produtor 5
+		width = 600
+		height = 600
+	image
+		original = home_producer_05_cover.jpg
+		title = Foto de capa do produtor 5
+		width = 1200
+		height = 675
+	i18n_input
+		name = home_producer_05_name
+		description = Nome (preencha para exibir este perfil)
+	i18n_input
+		name = home_producer_05_location
+		description = Cidade e estado
+	i18n_input
+		name = home_producer_05_quote
+		description = Resumo para a home
+	i18n_input
+		name = home_producer_05_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_05_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_05_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_05_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 6
+	i18n_input
+		name = home_producer_06_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
+	image
+		original = home_producer_06.jpg
+		title = Logo ou foto quadrada do produtor 6
+		width = 600
+		height = 600
+	image
+		original = home_producer_06_cover.jpg
+		title = Foto de capa do produtor 6
+		width = 1200
+		height = 675
+	i18n_input
+		name = home_producer_06_name
+		description = Nome (preencha para exibir este perfil)
+	i18n_input
+		name = home_producer_06_location
+		description = Cidade e estado
+	i18n_input
+		name = home_producer_06_quote
+		description = Resumo para a home
+	i18n_input
+		name = home_producer_06_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_06_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_06_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_06_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 7
+	i18n_input
+		name = home_producer_07_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
+	image
+		original = home_producer_07.jpg
+		title = Logo ou foto quadrada do produtor 7
+		width = 600
+		height = 600
+	image
+		original = home_producer_07_cover.jpg
+		title = Foto de capa do produtor 7
+		width = 1200
+		height = 675
+	i18n_input
+		name = home_producer_07_name
+		description = Nome (preencha para exibir este perfil)
+	i18n_input
+		name = home_producer_07_location
+		description = Cidade e estado
+	i18n_input
+		name = home_producer_07_quote
+		description = Resumo para a home
+	i18n_input
+		name = home_producer_07_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_07_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_07_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_07_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 8
+	i18n_input
+		name = home_producer_08_slug
+		description = Identificador usado na tag produtor:<slug> dos produtos
+	image
+		original = home_producer_08.jpg
+		title = Logo ou foto quadrada do produtor 8
+		width = 600
+		height = 600
+	image
+		original = home_producer_08_cover.jpg
+		title = Foto de capa do produtor 8
+		width = 1200
+		height = 675
+	i18n_input
+		name = home_producer_08_name
+		description = Nome (preencha para exibir este perfil)
+	i18n_input
+		name = home_producer_08_location
+		description = Cidade e estado
+	i18n_input
+		name = home_producer_08_quote
+		description = Resumo para a home
+	i18n_input
+		name = home_producer_08_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_08_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_08_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_08_link_url
+		description = Link da história
+	subtitle
+		subtitle = Página Nossos Produtores
 	description
-		description = A página nativa Nossos Produtores usa estes campos. Nomes, locais e fotos reaproveitam os dados dos produtores da home.
+		description = Perfis cadastrados acima aparecem na home e nesta página. Preencha o nome para ativar; os dados não precisam ser repetidos nos produtos.
 	i18n_input
 		name = producers_page_title
 		description = Título da página
@@ -1215,7 +1368,7 @@ Página de inicio
 		description = Selo ou conquista
 	i18n_input
 		name = home_producer_01_bio
-		description = Biografia
+		description = Biografia (5 a 7 linhas)
 	i18n_input
 		name = home_producer_01_link_text
 		description = Texto do link da história
@@ -1229,7 +1382,7 @@ Página de inicio
 		description = Selo ou conquista
 	i18n_input
 		name = home_producer_02_bio
-		description = Biografia
+		description = Biografia (5 a 7 linhas)
 	i18n_input
 		name = home_producer_02_link_text
 		description = Texto do link da história
@@ -1243,7 +1396,7 @@ Página de inicio
 		description = Selo ou conquista
 	i18n_input
 		name = home_producer_03_bio
-		description = Biografia
+		description = Biografia (5 a 7 linhas)
 	i18n_input
 		name = home_producer_03_link_text
 		description = Texto do link da história
@@ -1257,12 +1410,68 @@ Página de inicio
 		description = Selo ou conquista
 	i18n_input
 		name = home_producer_04_bio
-		description = Biografia
+		description = Biografia (5 a 7 linhas)
 	i18n_input
 		name = home_producer_04_link_text
 		description = Texto do link da história
 	i18n_input
 		name = home_producer_04_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 5 — conteúdo da página
+	i18n_input
+		name = home_producer_05_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_05_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_05_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_05_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 6 — conteúdo da página
+	i18n_input
+		name = home_producer_06_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_06_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_06_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_06_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 7 — conteúdo da página
+	i18n_input
+		name = home_producer_07_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_07_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_07_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_07_link_url
+		description = Link da história
+	subtitle
+		subtitle = Produtor 8 — conteúdo da página
+	i18n_input
+		name = home_producer_08_badge
+		description = Selo ou conquista
+	i18n_input
+		name = home_producer_08_bio
+		description = Biografia (5 a 7 linhas)
+	i18n_input
+		name = home_producer_08_link_text
+		description = Texto do link da história
+	i18n_input
+		name = home_producer_08_link_url
 		description = Link da história
 	subtitle
 		subtitle = Chamada para produtores
@@ -1286,6 +1495,28 @@ Página de inicio
 	i18n_input
 		name = home_products_link_text
 		description = Texto do link dos produtos
+	collapse
+		title = Módulo 4 — Nossos cafés
+		backto = home_order_position
+	description
+		description = O catálogo, preços, estoque e fotos dos produtos continuam vindo da Nuvemshop. Edite aqui apenas o título e o link.
+	subtitle
+		subtitle = Cores do módulo
+	color
+		name = sulmina_products_background_color
+		description = Fundo do módulo
+	color
+		name = sulmina_products_title_color
+		description = Cor dos títulos
+	color
+		name = sulmina_products_text_color
+		description = Cor dos textos
+	color
+		name = sulmina_products_card_color
+		description = Fundo dos cards
+	color
+		name = sulmina_products_accent_color
+		description = Cor de destaque e botões
 	collapse
 		title = Módulo 5 — Do Sul de Minas até a sua casa
 		backto = home_order_position

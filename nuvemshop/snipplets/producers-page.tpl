@@ -5,38 +5,16 @@
 {% set producers_page_cta_button = settings.producers_page_cta_button | default('Fale conosco') %}
 {% set producers_page_cta_url = settings.producers_page_cta_url | default('/contato/') %}
 
-{% set producer_01_image = 'home_producer_01.jpg' | has_custom_image %}
-{% set producer_02_image = 'home_producer_02.jpg' | has_custom_image %}
-{% set producer_03_image = 'home_producer_03.jpg' | has_custom_image %}
-{% set producer_04_image = 'home_producer_04.jpg' | has_custom_image %}
-
-{% set producer_01_name = settings.home_producer_01_name | default('Dona Marta') %}
-{% set producer_01_location = settings.home_producer_01_location | default('Machado / MG') %}
-{% set producer_01_badge = settings.home_producer_01_badge | default('🏆 Prêmio Regional de Qualidade 2025') %}
-{% set producer_01_bio = settings.home_producer_01_bio | default('Há mais de 20 anos cultivando café de altitude, Dona Marta transformou uma pequena produção familiar em referência de qualidade na região.') %}
-{% set producer_01_link_text = settings.home_producer_01_link_text | default('Conhecer a história completa →') %}
-{% set producer_01_link_url = settings.home_producer_01_link_url | default('') %}
-
-{% set producer_02_name = settings.home_producer_02_name | default('João Lúcio') %}
-{% set producer_02_location = settings.home_producer_02_location | default('Poço Fundo / MG') %}
-{% set producer_02_badge = settings.home_producer_02_badge | default('🏆 Concurso de Qualidade — Sul de Minas') %}
-{% set producer_02_bio = settings.home_producer_02_bio | default('Produtor de terceira geração, ele aposta em processos especiais de fermentação para trazer notas sensoriais únicas ao café.') %}
-{% set producer_02_link_text = settings.home_producer_02_link_text | default('Conhecer a história completa →') %}
-{% set producer_02_link_url = settings.home_producer_02_link_url | default('') %}
-
-{% set producer_03_name = settings.home_producer_03_name | default('Família Andrade') %}
-{% set producer_03_location = settings.home_producer_03_location | default('Carmo de Minas / MG') %}
-{% set producer_03_badge = settings.home_producer_03_badge | default('🏆 Certificação de Origem') %}
-{% set producer_03_bio = settings.home_producer_03_bio | default('Em Carmo de Minas, uma das regiões mais premiadas do Brasil, a família Andrade cultiva cafés florais e cítricos com vista para a Serra da Mantiqueira.') %}
-{% set producer_03_link_text = settings.home_producer_03_link_text | default('Conhecer a história completa →') %}
-{% set producer_03_link_url = settings.home_producer_03_link_url | default('') %}
-
-{% set producer_04_name = settings.home_producer_04_name | default('Seu Antônio') %}
-{% set producer_04_location = settings.home_producer_04_location | default('Alfenas / MG') %}
-{% set producer_04_badge = settings.home_producer_04_badge | default('🏆 Selo de Qualidade EMATER-MG') %}
-{% set producer_04_bio = settings.home_producer_04_bio | default('Com décadas de experiência, Seu Antônio é referência em processamento cuidadoso e secagem lenta, garantindo consistência de safra a safra.') %}
-{% set producer_04_link_text = settings.home_producer_04_link_text | default('Conhecer a história completa →') %}
-{% set producer_04_link_url = settings.home_producer_04_link_url | default('') %}
+{% set sulmina_producers = [
+    {'slug': settings.home_producer_01_slug | default('doceira-coffees'), 'name': settings.home_producer_01_name, 'location': settings.home_producer_01_location, 'badge': settings.home_producer_01_badge, 'bio': settings.home_producer_01_bio, 'link_text': settings.home_producer_01_link_text, 'link_url': settings.home_producer_01_link_url, 'image': 'home_producer_01.jpg', 'cover': 'home_producer_01_cover.jpg'},
+    {'slug': settings.home_producer_02_slug | default('grao-bao'), 'name': settings.home_producer_02_name, 'location': settings.home_producer_02_location, 'badge': settings.home_producer_02_badge, 'bio': settings.home_producer_02_bio, 'link_text': settings.home_producer_02_link_text, 'link_url': settings.home_producer_02_link_url, 'image': 'home_producer_02.jpg', 'cover': 'home_producer_02_cover.jpg'},
+    {'slug': settings.home_producer_03_slug | default('coopfam'), 'name': settings.home_producer_03_name, 'location': settings.home_producer_03_location, 'badge': settings.home_producer_03_badge, 'bio': settings.home_producer_03_bio, 'link_text': settings.home_producer_03_link_text, 'link_url': settings.home_producer_03_link_url, 'image': 'home_producer_03.jpg', 'cover': 'home_producer_03_cover.jpg'},
+    {'slug': settings.home_producer_04_slug, 'name': settings.home_producer_04_name, 'location': settings.home_producer_04_location, 'badge': settings.home_producer_04_badge, 'bio': settings.home_producer_04_bio, 'link_text': settings.home_producer_04_link_text, 'link_url': settings.home_producer_04_link_url, 'image': 'home_producer_04.jpg', 'cover': 'home_producer_04_cover.jpg'},
+    {'slug': settings.home_producer_05_slug, 'name': settings.home_producer_05_name, 'location': settings.home_producer_05_location, 'badge': settings.home_producer_05_badge, 'bio': settings.home_producer_05_bio, 'link_text': settings.home_producer_05_link_text, 'link_url': settings.home_producer_05_link_url, 'image': 'home_producer_05.jpg', 'cover': 'home_producer_05_cover.jpg'},
+    {'slug': settings.home_producer_06_slug, 'name': settings.home_producer_06_name, 'location': settings.home_producer_06_location, 'badge': settings.home_producer_06_badge, 'bio': settings.home_producer_06_bio, 'link_text': settings.home_producer_06_link_text, 'link_url': settings.home_producer_06_link_url, 'image': 'home_producer_06.jpg', 'cover': 'home_producer_06_cover.jpg'},
+    {'slug': settings.home_producer_07_slug, 'name': settings.home_producer_07_name, 'location': settings.home_producer_07_location, 'badge': settings.home_producer_07_badge, 'bio': settings.home_producer_07_bio, 'link_text': settings.home_producer_07_link_text, 'link_url': settings.home_producer_07_link_url, 'image': 'home_producer_07.jpg', 'cover': 'home_producer_07_cover.jpg'},
+    {'slug': settings.home_producer_08_slug, 'name': settings.home_producer_08_name, 'location': settings.home_producer_08_location, 'badge': settings.home_producer_08_badge, 'bio': settings.home_producer_08_bio, 'link_text': settings.home_producer_08_link_text, 'link_url': settings.home_producer_08_link_url, 'image': 'home_producer_08.jpg', 'cover': 'home_producer_08_cover.jpg'}
+] %}
 
 <main class="sulmina-producers-page" data-store="producers-page">
     <section class="sulmina-producers-page__hero">
@@ -48,49 +26,28 @@
 
     <section class="sulmina-producers-page__list">
         <div class="sulmina-container">
-            <article class="sulmina-producer-story">
-                {% if producer_01_image %}<img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ 'home_producer_01.jpg' | static_url | settings_image_url('large') }}" alt="{{ producer_01_name }}">{% else %}<div class="sulmina-placeholder sulmina-producer-story__image">Foto de {{ producer_01_name }}</div>{% endif %}
-                <div class="sulmina-producer-story__content">
-                    <h2>{{ producer_01_name }}</h2>
-                    <p class="sulmina-producer-story__location">{{ producer_01_location }}</p>
-                    {% if producer_01_badge %}<span class="sulmina-producer-story__badge">{{ producer_01_badge }}</span>{% endif %}
-                    <p>{{ producer_01_bio }}</p>
-                    {% if producer_01_link_url %}<a class="sulmina-text-link" href="{{ producer_01_link_url }}">{{ producer_01_link_text }}</a>{% endif %}
-                </div>
-            </article>
-
-            <article class="sulmina-producer-story">
-                {% if producer_02_image %}<img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ 'home_producer_02.jpg' | static_url | settings_image_url('large') }}" alt="{{ producer_02_name }}">{% else %}<div class="sulmina-placeholder sulmina-producer-story__image">Foto de {{ producer_02_name }}</div>{% endif %}
-                <div class="sulmina-producer-story__content">
-                    <h2>{{ producer_02_name }}</h2>
-                    <p class="sulmina-producer-story__location">{{ producer_02_location }}</p>
-                    {% if producer_02_badge %}<span class="sulmina-producer-story__badge">{{ producer_02_badge }}</span>{% endif %}
-                    <p>{{ producer_02_bio }}</p>
-                    {% if producer_02_link_url %}<a class="sulmina-text-link" href="{{ producer_02_link_url }}">{{ producer_02_link_text }}</a>{% endif %}
-                </div>
-            </article>
-
-            <article class="sulmina-producer-story">
-                {% if producer_03_image %}<img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ 'home_producer_03.jpg' | static_url | settings_image_url('large') }}" alt="{{ producer_03_name }}">{% else %}<div class="sulmina-placeholder sulmina-producer-story__image">Foto de {{ producer_03_name }}</div>{% endif %}
-                <div class="sulmina-producer-story__content">
-                    <h2>{{ producer_03_name }}</h2>
-                    <p class="sulmina-producer-story__location">{{ producer_03_location }}</p>
-                    {% if producer_03_badge %}<span class="sulmina-producer-story__badge">{{ producer_03_badge }}</span>{% endif %}
-                    <p>{{ producer_03_bio }}</p>
-                    {% if producer_03_link_url %}<a class="sulmina-text-link" href="{{ producer_03_link_url }}">{{ producer_03_link_text }}</a>{% endif %}
-                </div>
-            </article>
-
-            <article class="sulmina-producer-story">
-                {% if producer_04_image %}<img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ 'home_producer_04.jpg' | static_url | settings_image_url('large') }}" alt="{{ producer_04_name }}">{% else %}<div class="sulmina-placeholder sulmina-producer-story__image">Foto de {{ producer_04_name }}</div>{% endif %}
-                <div class="sulmina-producer-story__content">
-                    <h2>{{ producer_04_name }}</h2>
-                    <p class="sulmina-producer-story__location">{{ producer_04_location }}</p>
-                    {% if producer_04_badge %}<span class="sulmina-producer-story__badge">{{ producer_04_badge }}</span>{% endif %}
-                    <p>{{ producer_04_bio }}</p>
-                    {% if producer_04_link_url %}<a class="sulmina-text-link" href="{{ producer_04_link_url }}">{{ producer_04_link_text }}</a>{% endif %}
-                </div>
-            </article>
+            {% for producer in sulmina_producers %}
+                {% if producer.name %}
+                    {% set has_cover = producer.cover | has_custom_image %}
+                    {% set has_logo = producer.image | has_custom_image %}
+                    <article class="sulmina-producer-story" data-producer-slug="{{ producer.slug }}">
+                        {% if has_cover %}
+                            <img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ producer.cover | static_url | settings_image_url('large') }}" alt="Foto de {{ producer.name }}">
+                        {% elseif has_logo %}
+                            <img class="sulmina-producer-story__image lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ producer.image | static_url | settings_image_url('large') }}" alt="Logo de {{ producer.name }}">
+                        {% else %}
+                            <div class="sulmina-placeholder sulmina-producer-story__image">Foto de {{ producer.name }}</div>
+                        {% endif %}
+                        <div class="sulmina-producer-story__content">
+                            <h2>{{ producer.name }}</h2>
+                            {% if producer.location %}<p class="sulmina-producer-story__location">{{ producer.location }}</p>{% endif %}
+                            {% if producer.badge %}<span class="sulmina-producer-story__badge">{{ producer.badge }}</span>{% endif %}
+                            {% if producer.bio %}<p>{{ producer.bio }}</p>{% endif %}
+                            {% if producer.link_url %}<a class="sulmina-text-link" href="{{ producer.link_url }}">{{ producer.link_text | default('Conhecer a história completa →') }}</a>{% endif %}
+                        </div>
+                    </article>
+                {% endif %}
+            {% endfor %}
         </div>
     </section>
 

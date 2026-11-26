@@ -34,6 +34,8 @@
     .sulmina-reference-footer .sulmina-footer-col--brand { gap: 0 !important; }
     .sulmina-reference-footer .sulmina-footer-col--brand img { width: auto !important; height: 62px !important; }
     .sulmina-reference-footer .sulmina-footer-grid__social { gap: 14px !important; margin-top: 16px !important; }
+    .sulmina-reference-footer .sulmina-footer-grid__social .social-icon { margin: 0 !important; color: var(--sul-papel) !important; }
+    .sulmina-reference-footer .sulmina-footer-grid__social .social-icon:hover { color: var(--sul-ouro) !important; }
     .sulmina-reference-footer .sulmina-footer-col h3 {
         margin: 0 0 16px !important;
         font-size: 13px !important;
@@ -78,16 +80,7 @@
                     <img src="{{ 'images/sulmina-logo-full-cream.svg' | static_url }}" alt="{{ store.name }} — Da nossa terra, pra sua mesa." width="170" height="50">
                 </a>
                 <div class="sulmina-footer-grid__social" aria-label="Redes sociais">
-                    <a class="sulmina-footer-instagram" href="https://www.instagram.com/sulmina.co" target="_blank" rel="noopener" aria-label="Instagram da Sulmina">
-                        <span class="sulmina-footer-instagram-mark" aria-hidden="true"></span>
-                        <span>Instagram</span>
-                    </a>
-                    {% if store.whatsapp %}
-                        <a class="sulmina-footer-social-link" href="{{ store.whatsapp }}" target="_blank" rel="noopener" aria-label="WhatsApp da Sulmina">
-                            <svg class="icon-inline" aria-hidden="true"><use xlink:href="#whatsapp"></use></svg>
-                            <span>WhatsApp</span>
-                        </a>
-                    {% endif %}
+                    {% include 'snipplets/social/social-links.tpl' with { social_network_list: ['instagram'] } %}
                 </div>
             </div>
 
@@ -102,7 +95,6 @@
             <div class="sulmina-footer-col">
                 <h3>Institucional</h3>
                 <ul>
-                    <li><a href="/nossa-historia">Nossa História</a></li>
                     <li><a href="/produtores/">Nossos Produtores</a></li>
                     <li><a href="{{ footer_blog_url }}">Jornal</a></li>
                 </ul>

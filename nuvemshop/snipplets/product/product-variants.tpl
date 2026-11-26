@@ -38,7 +38,24 @@
 			{% if is_button_variant %}
 				<label class="form-label text-center text-md-left">{{ variation.name }}: <span class="js-insta-variation-label">{{ product.default_options[variation.id] }}</span></label>
 				{% for option in variation.options %}
-					<a data-option="{{ option.id }}" class="js-insta-variant btn btn-variant{% if product.default_options[variation.id] is same as(option.id) %} selected{% endif %}{% if variation.name in ['Color', 'Cor'] %} {% if option.custom_data or settings.image_color_variants %}btn-variant-color{% endif %} p-0{% endif %}" title="{{ option.name }}" data-option="{{ option.id }}" data-variation-id="{{ variation.id }}">
+					{% set option_weight_grams = '' %}
+					{% set option_weight_is_mixed = false %}
+					{% for variant in product.variants if (variant.option1 == option.id) or (variant.option2 == option.id) or (variant.option3 == option.id) %}
+						{% set variant_weight_kg = variant.weight | default(product.weight) %}
+						{% if variant_weight_kg and variant_weight_kg > 0 %}
+							{% set variant_weight_grams = (variant_weight_kg * 1000) | round %}
+							{% if not option_weight_grams %}
+								{% set option_weight_grams = variant_weight_grams %}
+							{% elseif option_weight_grams != variant_weight_grams %}
+								{% set option_weight_is_mixed = true %}
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+					{% set option_button_label = option.name %}
+					{% if option_weight_grams and not option_weight_is_mixed %}
+						{% set option_button_label = option.name ~ ' | ' ~ option_weight_grams ~ 'g' %}
+					{% endif %}
+					<a data-option="{{ option.id }}" class="js-insta-variant btn btn-variant{% if product.default_options[variation.id] is same as(option.id) %} selected{% endif %}{% if variation.name in ['Color', 'Cor'] %} {% if option.custom_data or settings.image_color_variants %}btn-variant-color{% endif %} p-0{% endif %}" title="{{ option_button_label }}" data-option="{{ option.id }}" data-variation-id="{{ variation.id }}">
 						<span class="btn-variant-content{% if settings.image_color_variants and variation.name in ['Color', 'Cor'] %} btn-variant-content-square{% endif %}"{% if option.custom_data and variation.name in ['Color', 'Cor'] and (settings.bullet_variants and not settings.image_color_variants) %} style="background: {{ option.custom_data }}; border: 1px solid #eee"{% endif %} data-name="{{ option.name }}">
 							{% if settings.image_color_variants and variation.name in ['Color', 'Cor'] %}
 								{% if product.default_options[variation.id] is same as(option.id) %}
@@ -52,7 +69,7 @@
 								{% endif %}
 							{% endif %}
 							{% if not(variation.name in ['Color', 'Cor']) or ((variation.name in ['Color', 'Cor']) and not option.custom_data and not settings.image_color_variants) %}
-								{{ option.name }}
+								{{ option.name }}{% if option_weight_grams and not option_weight_is_mixed %} | {{ option_weight_grams }}g{% endif %}
 							{% endif %}
 						</span>
 					</a>

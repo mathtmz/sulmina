@@ -1,82 +1,50 @@
-# Sulmina — contexto para continuidade
+# Sulmina — contexto de continuidade
 
-Atualizado em 04/11/2026. Este documento reúne o contexto útil para continuar o trabalho em outra conversa. Não contém senhas, tokens ou credenciais.
+Atualizado em 25/11/2026. Este handoff descreve a cópia de trabalho, a loja ativa e o fluxo seguro para manter o tema sincronizado. Não contém credenciais.
 
-## Objetivo do projeto
+## Projeto e repositório
 
-Adaptar o site Sulmina para um tema clássico personalizado da Nuvemshop, mantendo o visual do site de referência e deixando a gestão diária de conteúdo, produtos, páginas, imagens e newsletter nas ferramentas nativas da Nuvemshop.
+- Loja pública: `https://sulmina.com.br/`
+- Repositório Git: `https://github.com/mathtmz/sulmina`
+- Clone local neste Mac: `/Users/matheustomaz/work/SULMINA/sulmina-site`
+- Tema clássico da Nuvemshop: `nuvemshop/`
+- Branch de trabalho: `codex/padronizar-cartoes-produtos`; o `main` é a branch principal.
+- A cópia ativa do FTP é a referência original do tema. Compare o servidor de novo antes de qualquer envio, para preservar alterações feitas no painel ou no FTP após a última sincronização.
+- A conexão fica fora do repositório em `/Users/matheustomaz/work/SULMINA/.ftp-netrc`. Leia as credenciais somente em memória; nunca as exiba, registre ou versione.
 
-- Referência original: `https://mathtmz.github.io/sulmina/`
-- Loja: `https://sulmina.com.br/`
-- Repositório Git: `https://github.com/mathtmz/sulmina`; os arquivos do tema ficam em `nuvemshop/`.
-- Pasta do tema neste repositório: `nuvemshop/`.
-- A cópia de trabalho anterior ficou em `D:\Projects\code\sulmina`; não use essa cópia para inferir o estado atual do GitHub.
-- Arquivos locais de conexão `.nuvem` podem existir fora do repositório. Não leia, exponha, compartilhe nem inclua esses arquivos em commits/documentos.
+## Estrutura do tema
 
-O Morelia é o tema original/rollback e não deve ser alterado. O trabalho customizado usa a infraestrutura necessária da Nuvemshop, mas o markup e a identidade visual são da Sulmina. Produtos, preços, estoque, variações, carrinho e checkout devem continuar nativos da Nuvemshop.
+- `layouts/`: estrutura do tema e carregamento dos estilos e scripts Sulmina.
+- `templates/`: páginas de início, produto e outras páginas da loja.
+- `snipplets/`: componentes de produtos, filtros, produtores, header, footer e carrinho.
+- `static/css/sulmina.css`: identidade visual, grades e responsividade.
+- `static/js/sulmina.js`: filtros da loja, preço promocional exibido na página do produto e ajustes de interface.
+- `static/js/store.js.tpl`: integrações e comportamentos baseados no JavaScript original da Nuvemshop.
+- `config/`: campos e valores editáveis pelo editor do tema.
 
-## Diretrizes de marca e conteúdo
+## Gestão pelo painel da Nuvemshop
 
-- A Sulmina representa produtos do Sul de Minas em geral; começa com cafés, mas não deve ser posicionada como marca exclusivamente de café.
-- Idioma: português do Brasil.
-- Preservar a identidade visual editorial e acolhedora do site de referência: tons de creme/papel, café/terracota e dourado, serifas nos títulos e sans-serif no corpo.
-- Evitar conteúdo comercial simulado em produção. Os produtos reais devem vir do catálogo Nuvemshop.
-- O modo pré-lançamento está ativo na home pública. A mensagem aprovada é ampla e apresenta os cafés apenas como primeira coleção.
-- O usuário quer que edição cotidiana aconteça no painel/editor da Nuvemshop; código deve prover estrutura, módulos e integrações, não exigir edição manual recorrente.
+Produtos, preços, estoque, variações, páginas, pedidos, frete, carrinho e checkout continuam administrados nos recursos nativos da Nuvemshop. O tema fornece apresentação e integrações.
 
-## Escopo já trabalhado no tema
+Na página inicial, o editor concentra hero, produtores, produtos, processo e conteúdo institucional. A grade de produtores tem três posições preenchidas e não deixa espaços reservados; “Nossos cafés” usa um carrossel de quatro cards por vez no desktop, duas colunas em larguras intermediárias e um card no celular.
 
-Ao longo do projeto foram customizados home e módulos, header, loja/listagem e filtros, cards de produto, produtores, história, jornal/blog, páginas de ajuda/conta/contato, rodapé e newsletter. A newsletter usa o recurso nativo da Nuvemshop; nome e e-mail são campos obrigatórios, sem armazenamento externo. O checkout, carrinho, login e catálogo permanecem nativos.
+A página `/produtores/` e a home usam até oito perfis configurados no editor em **Página inicial → Módulo 3 — Quem faz o seu café**. Preencha o nome para ativar cada perfil. Os produtos usam a tag `produtor:<slug>` como referência, sem duplicar o perfil. Cada perfil pode incluir nome, cidade/estado, selo, frase, biografia de 5 a 7 linhas, logo/foto de perfil, capa e link da história.
 
-O usuário pediu que cada seção da home seja um módulo editável pelo editor do tema, incluindo cores de fonte, títulos, cards e fundo. As páginas Loja e Nossos Produtores devem continuar conectadas às páginas/menu e recursos nativos da Nuvemshop. O rodapé deve seguir o site original, com newsletter antes do footer, páginas do site agrupadas sem espaçamentos excessivos e Instagram com ícone + texto.
+Na Loja, os filtros abrem em painel, começam fechados e oferecem somente opções disponíveis entre os produtos. As tags reconhecidas incluem `torra:clara|media|escura`, `moagem:grao|moido`, `produtor:<slug>` e `nota:...` para as notas sensoriais.
 
-## Pedido atual: validar a página de produto
+Os botões de variação mostram o peso lido do cadastro do produto, por exemplo `Grãos | 250g`. Na página do produto, a partir de três unidades, a apresentação mostra preço cheio, desconto de 15% e o preço promocional calculado sobre o preço cheio. O carrinho e o checkout permanecem nativos da Nuvemshop.
 
-Página alvo:
+## Publicação e sincronização
 
-`https://sulmina.com.br/produtos/cafe-doceira-manga-frutas-vermelhas/`
+1. Leia `PROJECT_CONTEXT.md`, este arquivo e `nuvemshop/README.md`.
+2. Confira `git status`, branch e histórico. Preserve mudanças existentes e nunca inclua `.DS_Store`, `.nuvem`, `.env`, tokens, senhas ou credenciais.
+3. Antes de publicar no site, confira a cópia atual do FTP por FTPS explícito com TLS, `prot_p()` e modo passivo. Não use sincronização integral com força; envie somente os arquivos necessários e baixe-os novamente para comparar.
+4. Para sincronizar com GitHub, faça commit em branch de trabalho e integre ao `main` por pull request. Não inclua credenciais ou configurações privadas.
+5. Diferencie no registro o que foi observado no site público, conferido no FTP e enviado ao GitHub.
 
-Os requisitos a validar, sem comprar nem alterar dados da loja:
+## Histórico recente
 
-1. A página do produto tem hierarquia visual comercial clara; em particular, o preço deve se destacar do texto descritivo.
-2. Ao selecionar **Grãos**, a imagem principal/miniatura deve corresponder à variação em grãos.
-3. Ao selecionar **Moído**, a imagem principal/miniatura deve corresponder à variação moída.
-4. Confirmar se as seleções ficam visualmente marcadas e se o restante do formulário (quantidade e botão Comprar) continua funcional.
-
-### Evidência de código local
-
-- `nuvemshop/snipplets/product/product-form.tpl` contém o `#price_display` da página de produto.
-- `nuvemshop/static/css/sulmina.css` (aprox. linhas 1509–1519) define o preço com fonte de 30–36 px, peso 700 e sublinhado/borda dourada.
-- `nuvemshop/static/js/store.js.tpl` (aprox. linhas 2733–2755) escuta a mudança de variação, lê `variant.image` ou `variant.image_id`, localiza o slide com o mesmo `data-image` e move o carrossel/miniatura para ele.
-- A lógica de imagem só pode funcionar se cada variação no catálogo Nuvemshop estiver associada à imagem certa. Se não houver associação de imagem para Grãos/Moído, o script não tem como inferir a foto correspondente.
-
-Essa evidência confirma que há regras implementadas no código local; **não confirma o comportamento no site publicado**.
-
-### Bloqueio encontrado no site público
-
-As consultas HTTP ao endereço do produto e à raiz da loja retornaram a página de pré-lançamento (HTTP 200), com título “Do Sul de Minas, para a sua casa.” e o marcador `sulmina-prelaunch`. A resposta não contém o markup de produto (`data-store="product-detail"`), galeria `js-product-slide` nem controles `js-variation-option`. Assim, essa cópia pública não permite testar as variações.
-
-O HTML da home contém no rodapé um `<details>` com o texto **Acesso da equipe**; ao expandir, ele revela um formulário de senha. O usuário explicou que esse é o botão correto para revelar o formulário de acesso. Tentativas anteriores de autenticação via requisição HTTP não liberaram o produto. Não concluir que a senha está errada: pode ser necessário autenticar na sessão de navegador interativa.
-
-**Nunca incluir a senha que o usuário compartilhou em arquivos, respostas, commits ou registros. Não pedir que seja enviada novamente no chat.** Se uma autenticação for necessária, preferir que o usuário a conclua diretamente na sessão de navegador.
-
-## Estado das ferramentas de navegador
-
-Houve confusão entre três mecanismos. O usuário quer o **Browser interno do ChatGPT**, indicado por `[@Browser](plugin://browser@openai-bundled)`, e não o Chrome. A extensão do Chrome e a integração TinyFish foram alternativas discutidas, mas não são a ferramenta que o usuário pediu nesta etapa.
-
-Na conversa anterior, o contexto ambiente mostrava apenas a URL da guia. As ferramentas então expostas permitiam abrir uma página, mas não controlar seus elementos, nem obter screenshot/DOM. O seletor `@Browser` não ficou disponível como ferramenta executável nessa sessão. Escrever `@Browser` como texto não necessariamente ativa a ferramenta: ela precisa ser selecionada no menu de ferramentas/menções da interface. Uma conversa derivada com o histórico foi aberta, mas o controle não foi efetivamente conectado; portanto nenhum teste interativo foi concluído.
-
-Ao continuar:
-
-1. Verificar se a ferramenta nativa Browser está realmente disponível no seletor desta conversa; selecionar a ferramenta, não apenas mencionar seu nome em texto.
-2. Usar a página de produto no Browser interno, e deixar o usuário completar o acesso se a sessão exigir senha.
-3. Testar Grãos e Moído, registrar qual imagem e miniatura ficam ativas e avaliar o destaque do preço.
-4. Se Browser não estiver disponível como ferramenta, declarar o bloqueio com precisão. Não afirmar que navegou/testou. O código local e uma captura de tela servem para revisão parcial, mas não substituem o teste das interações.
-
-## Regras para a próxima rodada
-
-- O pedido atual é de **validação**, não de alteração do tema, publicação ou compra.
-- Não publicar, editar o catálogo, associar imagens às variações ou mudar o modo pré-lançamento sem pedido claro.
-- Separar sempre: (a) o que foi observado no site ao vivo; (b) o que foi inferido do código local; (c) o que ficou bloqueado.
-- Se um requisito falhar no teste, diagnosticar primeiro se é CSS/JS do tema, associação de imagem/ID da variação no catálogo ou versão/caching do tema publicado.
-- O usuário se frustrou com afirmações repetidas de acesso a navegador sem controle real. Seja direto sobre o estado da ferramenta e só confirme teste depois de observar a interação.
+- Os cartões de produtos, filtros, variantes com peso, home e página de produtores foram implementados no tema e sincronizados com o FTP.
+- A página de produto passou a exibir o valor promocional de 15% ao selecionar três unidades ou mais, com desconto calculado sobre o preço cheio.
+- A faixa marrom de frete grátis foi removida da página de produto; o anúncio verde do topo permanece.
+- Em 25/11/2026, os 24 arquivos de tema alterados localmente foram comparados com a cópia ativa do FTP e estavam idênticos. A sincronização com o GitHub ainda deve seguir o fluxo de branch e pull request descrito acima.

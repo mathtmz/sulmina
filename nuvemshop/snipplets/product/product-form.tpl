@@ -6,7 +6,7 @@
         {# Product name #}
         <h2 class="h4 h2-md mb-2 text-center text-md-left">{{ product.name }}</h2>
     {% else %}
-        {% embed "snipplets/page-header.tpl" with {container: false, padding: false, page_header_class: 'text-md-left', page_header_title_class: 'sulmina-product-title js-product-name h4 h2-md mb-2'} %}
+        {% embed "snipplets/page-header.tpl" with {container: false, padding: false, breadcrumbs: false, page_header_class: 'text-md-left', page_header_title_class: 'sulmina-product-title js-product-name h4 h2-md mb-2'} %}
             {% block page_header_text %}{{ product.name }}{% endblock page_header_text %}
         {% endembed %}
         {% include 'snipplets/product/product-description.tpl' %}
@@ -22,6 +22,22 @@
 
     {# Subscription only detection #}
     {% set is_subscription_only_product = product.isSubscribable() and product.isSubscriptionOnly() %}
+    {% set show_product_quantity = product.available and product.display_price %}
+
+    {# Product form starts after the description so the variant choice appears before the price. #}
+    <form id="product_form" class="js-product-form sulmina-product-form mt-2" method="post" action="{{ store.cart_url }}" data-store="product-form-{{ product.id }}">
+        <input type="hidden" name="add_to_cart" value="{{product.id}}" />
+        {% if template == "product" %}
+            {% set show_size_guide = true %}
+        {% endif %}
+        <div class="sulmina-product-choice-row">
+            {% if product.variations %}
+                {% include "snipplets/product/product-variants.tpl" with {show_size_guide: show_size_guide} %}
+            {% endif %}
+            {% if show_product_quantity %}
+                {% include "snipplets/product/product-quantity.tpl" %}
+            {% endif %}
+        </div>
 
     {# Product price #}
 
@@ -56,6 +72,10 @@
                         container_classes: "mt-1 mb-2 font-smallest opacity-60",
                     })
                 }}
+                <div class="sulmina-product-promo-price-summary" data-sulmina-product-promo-summary hidden aria-live="polite">
+                    <span data-sulmina-product-promo-discount-label></span>
+                    <strong data-sulmina-product-promo-discount-value></strong>
+                </div>
                 {{ component('payment-discount-price', {
                         visibility_condition: settings.payment_discount_price,
                         location: 'product',
@@ -120,8 +140,6 @@
 
         {# Product availability #}
 
-        {% set show_product_quantity = product.available and product.display_price %}
-
         {# Free shipping minimum message #}
         {% set has_free_shipping = cart.free_shipping.cart_has_free_shipping or cart.free_shipping.min_price_free_shipping.min_price %}
         {% set has_product_free_shipping = product.free_shipping %}
@@ -129,7 +147,7 @@
         {% set is_full_free_shipping = shipping_best_discount.is_free or not shipping_best_discount.discount_type %}
 
         {% if not product.is_non_shippable and show_product_quantity and (has_free_shipping or has_product_free_shipping) %}
-            <div class="js-free-shipping-minimum-message free-shipping-message font-small mt-2 mb-4">
+            <div class="js-free-shipping-minimum-message free-shipping-message font-small mt-2 mb-4 d-none">
                 {% if has_product_free_shipping or is_full_free_shipping %}
                     {% set shipping_discount_label = "Envío gratis" | translate %}
                 {% else %}
@@ -153,23 +171,10 @@
         {% endif %}
     </div>
 
-    {{ component('promotions-details', {
-        promotions_details_classes: {
-            container: 'js-product-promo-container text-center text-md-left mb-2',
-            promotion_title: 'font-small mb-1 mt-2 text-accent',
-            valid_scopes: 'font-small mb-0',
-            categories_combinable: 'font-small mb-0',
-            not_combinable: 'font-small opacity-60 mb-0',
-            progressive_discounts_table: 'table mb-2 mt-3',
-            progressive_discounts_hidden_table: 'table-body-inverted',
-            progressive_discounts_show_more_link: 'btn-link btn-link-primary mb-4',
-            progressive_discounts_show_more_icon: 'icon-inline icon-rotate-90',
-            progressive_discounts_hide_icon: 'icon-inline icon-rotate-90-neg',
-            progressive_discounts_promotion_quantity: 'font-weight-light text-lowercase'
-        },
-        accordion_show_svg_id: 'chevron',
-        accordion_hide_svg_id: 'chevron',
-    }) }}
+    <div class="sulmina-product-launch-promo" role="note" aria-label="Promoção de lançamento">
+        <strong>Promoção de lançamento</strong>
+        <span>15% de desconto sobre o preço cheio na compra de 3 unidades ou mais. Frete grátis em pedidos acima de R$ 150.</span>
+    </div>
 
     {# Gift promotion message #}
 
@@ -180,16 +185,7 @@
         },
     }) }}
 
-    {# Product form, includes: Variants, CTA and Shipping calculator #}
-
-     <form id="product_form" class="js-product-form mt-4" method="post" action="{{ store.cart_url }}" data-store="product-form-{{ product.id }}">
-        <input type="hidden" name="add_to_cart" value="{{product.id}}" />
-        {% if template == "product" %}
-            {% set show_size_guide = true %}
-        {% endif %}
-        {% if product.variations %}
-            {% include "snipplets/product/product-variants.tpl" with {show_size_guide: show_size_guide} %}
-        {% endif %}
+    {# The product form continues with the purchase controls and shipping calculator. #}
 
         {# Kit products: components list, with variant selector when the kit component has variants #}
 
@@ -239,10 +235,6 @@
         {{ component('nubesdk-slot', { type: "before_product_detail_add_to_cart" }) }}
 
         <div class="row {% if settings.product_stock %}mb-3{% else %}mb-4{% endif %}">
-            {% if show_product_quantity %}
-                {% include "snipplets/product/product-quantity.tpl" %}
-            {% endif %}
-
             {{ component('subscriptions/subscription-selector', {
                 allow_subscription_only: is_subscription_only_product,
                 subscription_only_container: 'p-3',
@@ -348,7 +340,7 @@
             {{ component('nubesdk-slot', { type: "before_product_detail_shipping_options" }) }}
 
             {% if show_product_fulfillment %}
-                <div class="mb-4 {% if store.branches %}pb-2{% endif %}">
+                <div class="sulmina-product-fulfillment mb-4 {% if store.branches %}pb-2{% endif %}">
 
                     {# Shipping calculator and branch link #}
 

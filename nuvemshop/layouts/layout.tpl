@@ -64,7 +64,7 @@
         <link rel="stylesheet" href="{{ 'css/style-async.scss' | static_url }}" media="print" onload="this.media='all'">
 
         {# Sulmina brand layer. Commerce behavior remains in the native Morelia assets. #}
-        <link rel="stylesheet" href="{{ 'css/sulmina.css' | static_url }}?v=20261104-03">
+        <link rel="stylesheet" href="{{ 'css/sulmina.css' | static_url }}?v=20261125-06">
 
         {# Loads custom CSS added from Advanced Settings on the admin´s theme customization screen #}
 
@@ -199,6 +199,6 @@
             </script>
         {% endif %}
 
-        <script src="{{ 'js/sulmina.js' | static_url }}?v=20260921-11" defer></script>
+        <script src="{{ 'js/sulmina.js' | static_url }}?v=20261125-04" defer></script>
     </body>
 </html>
