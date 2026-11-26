@@ -28,8 +28,6 @@
 			<a class="{% if template == 'home' %}is-active{% endif %}" href="{{ store.url }}">Início</a>
 			<a class="{% if template == 'category' or template == 'product' %}is-active{% endif %}" href="{{ store.products_url }}">Loja</a>
 			<a class="{% if template == 'page' and page.name and 'produtor' in (page.name | lower) %}is-active{% endif %}" href="/produtores/">Nossos Produtores</a>
-			<a class="{% if template == 'page' and page.name and 'hist' in (page.name | lower) %}is-active{% endif %}" href="/nossa-historia">Nossa História</a>
-			<a class="{% if template == 'blog' or template == 'blog-post' %}is-active{% endif %}" href="{{ store.blog_url ? store.blog_url : '/blog/' }}">Jornal</a>
 		</nav>
 	{% endblock %}
 	{% block modal_foot %}

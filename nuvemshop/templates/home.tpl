@@ -8,6 +8,6 @@
         {% include 'snipplets/home/sulmina-producers.tpl' %}
         {% include 'snipplets/home/sulmina-products.tpl' %}
         {% include 'snipplets/home/sulmina-process.tpl' %}
-        {% include 'snipplets/home/sulmina-story.tpl' %}
+        {# A história fica oculta até o conteúdo estar pronto. #}
     </main>
 {% endif %}

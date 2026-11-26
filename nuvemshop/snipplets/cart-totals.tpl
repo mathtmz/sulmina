@@ -69,7 +69,9 @@
 
   {# Cart fulfillment #}
 
-  {% include "snipplets/shipping/cart-fulfillment.tpl" %}
+  {% if not cart.free_shipping.cart_has_free_shipping %}
+    {% include "snipplets/shipping/cart-fulfillment.tpl" %}
+  {% endif %}
 {% endif %}
   
     {% if settings.cart_coupon %}
@@ -103,7 +105,27 @@
     {% endif %}
 
     {# Cart totals #}
-    {{ component('cart-totals', {
+    <div class="sulmina-cart-summary-wrap">
+      <div
+        class="sulmina-cart-summary"
+        data-sulmina-cart-summary
+        data-cart-subtotal="{{ cart.subtotal }}"
+        data-cart-shipping="{{ cart.shipping_cost | default(0) }}"
+        data-cart-total="{{ cart.total }}"
+        data-cart-promotion-discount="{{ cart.promotional_discount_amount | default(0) }}"
+        data-cart-currency="{{ cart.currency | default(store.currency) }}"
+        data-cart-free-shipping="{{ cart.free_shipping.cart_has_free_shipping ? 'true' : 'false' }}"
+        data-cart-calculator-enabled="{{ show_calculator_on_cart ? 'true' : 'false' }}"
+        aria-label="Resumo do pedido"
+      >
+        <div class="sulmina-cart-summary__row"><span>Subtotal (sem frete)</span><span data-sulmina-summary-subtotal>{{ cart.subtotal | money }}</span></div>
+        <div class="sulmina-cart-summary__row sulmina-cart-summary__row--discount"><span>Desconto</span><span data-sulmina-summary-discount>{% if cart.promotional_discount_amount > 0 %}-{{ cart.promotional_discount_amount | money }}{% else %}{{ 0 | money }}{% endif %}</span></div>
+        <div class="sulmina-cart-summary__row"><span>Frete</span><span data-sulmina-summary-shipping>{% if cart.free_shipping.cart_has_free_shipping %}Grátis{% elseif cart.shipping_cost > 0 %}{{ cart.shipping_cost | money }}{% elseif show_calculator_on_cart %}Calcule para ver{% else %}Calculado no checkout{% endif %}</span></div>
+        <div class="sulmina-cart-summary__row sulmina-cart-summary__row--total"><span>Total</span><span data-sulmina-summary-total>{{ cart.total | money }}</span></div>
+      </div>
+
+      {# Keep the native totals component in the DOM for cart, shipping, coupon and payment scripts. #}
+      {{ component('cart-totals', {
         shipping_enabled: show_calculator_on_cart,
         shipping_discount_row_enabled: true,
         payment_discount_price_enabled: settings.payment_discount_price,
@@ -111,33 +133,33 @@
         totals_divider: false,
         text_classes: {
           subtotals_row: 'd-grid grid-1-auto mb-2',
-          subtotal: cart_page ? 'h5 row no-gutters font-big mb-1' : 'h5 font-big row mb-1',
+          subtotal: cart_page ? 'sulmina-native-subtotal-row h5 row no-gutters font-big mb-1' : 'sulmina-native-subtotal-row h5 font-big row mb-1',
           subtotal_label: cart_page ? 'col-auto pl-md-0' : 'col-7',
           subtotal_price: cart_page ? 'col text-right pr-md-0' : 'col text-right',
           price_without_taxes: price_without_taxes_container_classes,
           price_without_taxes_label: price_without_taxes_label_classes,
           price_without_taxes_price: price_without_taxes_price_classes,
-          promotions: 'text-accent',
-          discounts_row: cart_page ? 'row no-gutters mb-2' : 'row no-gutters d-grid grid-1-auto mb-2',
-          shipping_costs: 'js-fulfillment-info js-shipping-cost-table h6 font-body mb-2 row no-gutters',
+          promotions: 'sulmina-native-promotions d-none',
+          discounts_row: cart_page ? 'sulmina-native-discounts-row row no-gutters mb-2' : 'sulmina-native-discounts-row row no-gutters d-grid grid-1-auto mb-2',
+          shipping_costs: 'sulmina-native-shipping-row js-fulfillment-info js-shipping-cost-table h6 font-body mb-2 row no-gutters',
           shipping_costs_label: 'col-auto pl-md-0',
-          shipping_costs_price: 'col text-right opacity-40 pr-md-0',
+          shipping_costs_price: 'sulmina-native-shipping-price col text-right opacity-40 pr-md-0',
           shipping_costs_calculating: 'col text-right opacity-40 pr-md-0',
           shipping_costs_empty: 'col text-right opacity-40 pr-md-0',
-          total: cart_page ? 'h2 row no-gutters font-huge mb-2' : 'h2 row font-huge mb-2',
+          total: cart_page ? 'sulmina-native-total-row h2 row no-gutters font-huge mb-2' : 'sulmina-native-total-row h2 row font-huge mb-2',
           total_label: cart_page ? 'col-auto pl-md-0' : 'col-auto',
-          total_price: cart_page ? 'col text-right pr-md-0' : 'col text-right',
-          payment_discount_and_installments: cart_page ? 'col-12 pr-md-0' : 'col-12',
+          total_price: cart_page ? 'sulmina-native-total-price col text-right pr-md-0' : 'sulmina-native-total-price col text-right',
+          payment_discount_and_installments: cart_page ? 'sulmina-native-payment-details d-none col-12 pr-md-0' : 'sulmina-native-payment-details d-none col-12',
           payment_discount_price: 'font-small text-right',
           installments: 'font-small text-right',
           discounts_label: 'col pr-3 text-accent',
           discounts_price: cart_page ? 'col-auto text-right pr-md-0 text-accent' : 'col-auto text-right text-accent',
-          shipping_discount_row: cart_page ? 'row no-gutters mb-2' : 'row mb-2',
+          shipping_discount_row: cart_page ? 'sulmina-native-shipping-discount-row d-none row no-gutters mb-2' : 'sulmina-native-shipping-discount-row d-none row mb-2',
           shipping_discount_label: cart_page ? 'col-auto pl-md-0 text-uppercase' : 'col-auto text-uppercase',
           shipping_discount_price: cart_page ? 'col text-right pr-md-0' : 'col text-right',
         },
-      }) 
-    }}
+      }) }}
+    </div>
 
     {{ component('nubesdk-slot', { type: "before_go_to_checkout" }) }}
 

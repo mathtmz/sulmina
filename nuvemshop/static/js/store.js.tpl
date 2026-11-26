@@ -2731,29 +2731,125 @@ DOMContentLoaded.addEventOrExecute(() => {
             {% endif %}
 
             if(has_multiple_slides){
-                LS.registerOnChangeVariant(function(variant){
+                var syncProductVariantSlide = function(variant){
                     var productSlider = jQueryNuvem('.js-product-detail .js-swiper-product').first();
-                    var variantImageId = variant && (variant.image || variant.image_id);
-                    if (!productSlider.length || !variantImageId || !productSwiper) {
-                        return;
+                    if (!productSlider.length) return;
+
+                    var productNode = jQueryNuvem('#single-product').get()[0];
+                    var variants = [];
+                    try {
+                        variants = JSON.parse(productNode.getAttribute('data-variants') || '[]');
+                    } catch (error) {
+                        variants = [];
                     }
 
-                    var variantSlide = productSlider.find(".js-product-slide[data-image='" + variantImageId + "']").first();
-                    if (!variantSlide.length) {
-                        return;
+                    var normalizeOption = function(value){
+                        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+                    };
+                    var optionValues = function(item){
+                        return [item && item.option0, item && item.option1, item && item.option2].map(normalizeOption);
+                    };
+                    var optionValuesForSelection = optionValues(variant);
+                    var selectedVariant = variants.find(function(item){
+                        return variant && variant.id && String(item.id) === String(variant.id);
+                    });
+                    if (!selectedVariant) {
+                        selectedVariant = variants.find(function(item){
+                            var candidateOptions = optionValues(item);
+                            var hasSelection = false;
+                            for (var i = 0; i < optionValuesForSelection.length; i++) {
+                                if (optionValuesForSelection[i]) {
+                                    hasSelection = true;
+                                    if (candidateOptions[i] !== optionValuesForSelection[i]) return false;
+                                }
+                            }
+                            return hasSelection;
+                        });
                     }
 
-                    var slideToGo = parseInt(variantSlide.attr('data-image-position'), 10);
-                    if (!Number.isFinite(slideToGo)) {
-                        return;
+                    var selectedVariantOptions = optionValues(selectedVariant);
+                    var selectedOptions = selectedVariantOptions.some(Boolean) ? selectedVariantOptions : optionValuesForSelection;
+                    var isGrainOption = function(value){ return /grao/.test(value); };
+                    var isGroundOption = function(value){ return /moido/.test(value); };
+                    var selectedCoffeeType = selectedOptions.find(function(value){ return isGrainOption(value) || isGroundOption(value); }) || '';
+                    var imageId = (variant && (variant.image || variant.image_id)) || (selectedVariant && (selectedVariant.image || selectedVariant.image_id));
+                    if (imageId && typeof imageId === 'object') imageId = imageId.id;
+
+                    var slideElements = Array.prototype.slice.call(productSlider.get()[0].querySelectorAll('.js-product-slide[data-image-position]'));
+                    var variantSlide = imageId && slideElements.find(function(slide){
+                        return String(slide.getAttribute('data-image')) === String(imageId);
+                    });
+                    var slideToGo = variantSlide ? parseInt(variantSlide.getAttribute('data-image-position'), 10) : NaN;
+
+                    if (selectedCoffeeType) {
+                        var imageIdOptions = variants.filter(function(item){
+                            var values = optionValues(item);
+                            return values.some(function(value){ return isGrainOption(value) || isGroundOption(value); });
+                        }).filter(function(item){
+                            var itemImageId = item.image || item.image_id;
+                            if (itemImageId && typeof itemImageId === 'object') itemImageId = itemImageId.id;
+                            return imageId && String(itemImageId) === String(imageId);
+                        }).map(function(item){ return optionValues(item); });
+                        var imageIsSharedAcrossCoffeeTypes = imageIdOptions.some(function(values){
+                            return values.some(isGrainOption);
+                        }) && imageIdOptions.some(function(values){
+                            return values.some(isGroundOption);
+                        });
+
+                        if (!variantSlide || imageIsSharedAcrossCoffeeTypes) {
+                            var imageSlides = slideElements.filter(function(slide){
+                                return slide.querySelector('img');
+                            });
+                            var preferredImageIndex = isGrainOption(selectedCoffeeType) ? 1 : 0;
+                            var preferredImage = imageSlides[preferredImageIndex];
+                            if (preferredImage) {
+                                slideToGo = parseInt(preferredImage.getAttribute('data-image-position'), 10);
+                            }
+                        }
                     }
 
-                    productSwiper.slideTo(slideToGo);
-                    productSlider.find(".js-product-slide-img").removeClass("js-active-variant");
-                    variantSlide.find(".js-product-slide-img").addClass("js-active-variant");
-                    jQueryNuvem('.js-product-detail .js-product-thumb').removeClass('selected')
-                        .filter("[data-thumb-loop='" + slideToGo + "']").addClass('selected');
+                    if (!Number.isFinite(slideToGo)) return;
+
+                    if (productSwiper && typeof productSwiper.slideTo === 'function') {
+                        productSwiper.slideTo(slideToGo);
+                    } else {
+                        var productWrapper = productSlider.find('.swiper-wrapper').first();
+                        var targetSlide = productSlider.find(".js-product-slide[data-image-position='" + slideToGo + "']").first();
+                        if (productWrapper.length && targetSlide.length) {
+                            productWrapper.css('transform', 'translate3d(-' + targetSlide.position().left + 'px, 0, 0)');
+                        }
+                    }
+                    productSlider.find('.js-product-slide-img').removeClass('js-active-variant');
+                    productSlider.find(".js-product-slide[data-image-position='" + slideToGo + "'] .js-product-slide-img").addClass('js-active-variant');
+                    var $productThumbs = productSlider.closest('.js-product-detail').find('.js-product-thumb');
+                    $productThumbs.removeClass('selected');
+                    productSlider.closest('.js-product-detail')
+                        .find(".js-product-thumb[data-thumb-loop='" + slideToGo + "']")
+                        .addClass('selected');
+                };
+
+                LS.registerOnChangeVariant(function(variant){
+                    syncProductVariantSlide(variant);
                 });
+
+                var initialVariant = {};
+                jQueryNuvem('#single-product .js-variation-option').each(function(select, index){
+                    var selectedOption = select.options[select.selectedIndex];
+                    if (selectedOption) initialVariant['option' + index] = selectedOption.text;
+                });
+                if (Object.keys(initialVariant).length) {
+                    var initialVariantSyncAttempts = 0;
+                    var syncInitialProductVariant = function(){
+                        if (productSwiper && productSwiper.initialized) {
+                            syncProductVariantSlide(initialVariant);
+                            return;
+                        }
+                        if (initialVariantSyncAttempts++ < 40) {
+                            window.setTimeout(syncInitialProductVariant, 50);
+                        }
+                    };
+                    syncInitialProductVariant();
+                }
 
                 jQueryNuvem(".js-product-thumb").on("click", function(e){
                     e.preventDefault();

@@ -1,18 +1,41 @@
 {{ component('nubesdk-slot', { type: "before_line_item", pick: item.id }) }}
 
 {% set is_gift = item.is_gift %}
+{% set item_compare_unit_price = item.unit_price %}
+{% if item.compare_at_price and item.compare_at_price > item.unit_price %}
+  {% set item_compare_unit_price = item.compare_at_price %}
+{% elseif item.product.compare_at_price and item.product.compare_at_price > item.unit_price %}
+  {% set item_compare_unit_price = item.product.compare_at_price %}
+{% endif %}
+{% set item_compare_subtotal = item_compare_unit_price * item.quantity %}
+{% set item_discount_percentage = 0 %}
+{% set item_discount_amount = item_compare_subtotal - item.subtotal %}
+{% if cart.promotional_discount_amount > 0 and cart.subtotal > 0 %}
+  {% set item_discount_amount = (cart.promotional_discount_amount * item_compare_subtotal / cart.subtotal) | round %}
+{% endif %}
+{% if item_discount_amount > 0 and item_compare_subtotal > 0 %}
+  {% set item_discount_percentage = (item_discount_amount * 100 / item_compare_subtotal) | round %}
+{% endif %}
+{% set item_final_subtotal = item_compare_subtotal - item_discount_amount %}
 
-<div class="js-cart-item {% if item.product.is_non_shippable %}js-cart-item-non-shippable{% else %}js-cart-item-shippable{% endif %} cart-item row no-gutters mb-3 {% if cart_page %}align-items-md-center{% endif %}" data-item-id="{{ item.id }}" data-gift="{{ is_gift ? 'true' : 'false' }}" data-store="cart-item-{{ item.product.id }}" data-component="cart.line-item">
-  {% set hide_compare_price_subtotal = (not item.compare_at_price_subtotal or item.is_subscription_item) and not is_gift %}
-  {% set discount_percentage = item.discount_percentage %}
+<div class="js-cart-item {% if item.product.is_non_shippable %}js-cart-item-non-shippable{% else %}js-cart-item-shippable{% endif %} cart-item row no-gutters mb-3 {% if cart_page %}align-items-md-center{% endif %}" data-item-id="{{ item.id }}" data-gift="{{ is_gift ? 'true' : 'false' }}" data-sulmina-compare-unit="{{ item_compare_unit_price }}" data-sulmina-compare-subtotal="{{ item_compare_subtotal }}" data-sulmina-current-subtotal="{{ item.subtotal }}" data-sulmina-quantity="{{ item.quantity }}" data-store="cart-item-{{ item.product.id }}" data-component="cart.line-item">
+  {% set hide_compare_price_subtotal = (item_discount_amount <= 0 or item.is_subscription_item) and not is_gift %}
+  {% set discount_percentage = item_discount_percentage %}
   {% set compare_price_block %}
     {% if is_gift %}
-      <span class="price-compare font-smallest opacity-50 ml-0" data-line-item-id="{{ item.id }}">{{ item.compare_at_price_subtotal | money }}</span>
+      <span class="sulmina-cart-price-detail sulmina-cart-price-detail--full" data-line-item-id="{{ item.id }}">
+        <span class="sulmina-cart-price-detail__label">Preço cheio</span>
+        <span class="price-compare font-smallest opacity-50 ml-0">{{ item.compare_at_price_subtotal | money }}</span>
+      </span>
     {% else %}
-      <span class="js-cart-item-subtotal-compare-price price-compare font-smallest opacity-50 ml-0" data-line-item-id="{{ item.id }}" data-component="subtotal_compare_price.value" data-component-value='{{ item.compare_at_price_subtotal | money }}'>{{ item.compare_at_price_subtotal | money }}</span>
-      {% if discount_percentage > 0 %}
-        <span class="text-accent font-smallest font-weight-bold">-{{ discount_percentage }}%</span>
-      {% endif %}
+      <span class="sulmina-cart-price-detail sulmina-cart-price-detail--full" data-line-item-id="{{ item.id }}">
+        <span class="sulmina-cart-price-detail__label">Preço cheio</span>
+        <span class="js-cart-item-subtotal-compare-price price-compare font-smallest opacity-50 ml-0" data-component="subtotal_compare_price.value" data-component-value='{{ item_compare_subtotal | money }}'>{{ item_compare_subtotal | money }}</span>
+      </span>
+      <span class="sulmina-cart-price-detail sulmina-cart-price-detail--discount" data-sulmina-line-discount-row data-line-item-id="{{ item.id }}" {% if item_discount_amount <= 0 %}style="display: none"{% endif %}>
+        <span class="sulmina-cart-price-detail__label" data-sulmina-line-discount-label>Desconto ({{ discount_percentage }}%)</span>
+        <span class="text-accent font-smallest font-weight-bold" data-sulmina-line-discount-value>-{{ item_discount_amount | money }}</span>
+      </span>
     {% endif %}
   {% endset %}
 
@@ -72,6 +95,7 @@
               labels_classes: {
                 group: 'mt-1 mb-2',
                 label: 'text-accent font-smallest font-md-small mb-1',
+                promotion: 'd-none',
                 subscription: 'font-smallest opacity-80 mt-1 mb-2',
               },
             })
@@ -92,7 +116,7 @@
         {% if is_gift %}
           <span class="{% if cart_page %}col-md-2 px-0 text-md-center d-block d-md-none{% endif %}" data-line-item-id="{{ item.id }}">{{ "Gratis" | translate }}</span>
         {% else %}
-          <span class="js-cart-item-subtotal {% if cart_page %}col-md-2 px-0 text-md-center d-block d-md-none{% endif %}" data-line-item-id="{{ item.id }}" data-component="subtotal.value" data-component-value={{ item.subtotal | money }}'>{{ item.subtotal | money }}</span>
+          <span class="js-cart-item-subtotal sulmina-cart-price-final {% if cart_page %}col-md-2 px-0 text-md-center d-block d-md-none{% endif %}" data-sulmina-line-final-value data-line-item-id="{{ item.id }}" data-component="subtotal.value" data-component-value='{{ item_final_subtotal | money }}' {% if item_discount_amount <= 0 %}style="display: none"{% endif %}><span class="sulmina-cart-price-detail__label">Preço final:</span> <span data-sulmina-line-final-amount>{{ item_final_subtotal | money }}</span></span>
         {% endif %}
       </div>
 
@@ -172,7 +196,7 @@
               {% if is_gift %}
                 <span class="font-weight-bold" data-line-item-id="{{ item.id }}">{{ "Gratis" | translate }}</span>
               {% else %}
-                <span class="js-cart-item-subtotal font-weight-bold" data-line-item-id="{{ item.id }}" data-component="subtotal.value" data-component-value={{ item.subtotal | money }}'>{{ item.subtotal | money }}</span>
+                <span class="js-cart-item-subtotal sulmina-cart-price-final font-weight-bold" data-sulmina-line-final-value data-line-item-id="{{ item.id }}" data-component="subtotal.value" data-component-value='{{ item_final_subtotal | money }}' {% if item_discount_amount <= 0 %}style="display: none"{% endif %}><span class="sulmina-cart-price-detail__label">Preço final:</span> <span data-sulmina-line-final-amount>{{ item_final_subtotal | money }}</span></span>
               {% endif %}
             </div>
 

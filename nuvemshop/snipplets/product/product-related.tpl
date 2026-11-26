@@ -69,7 +69,7 @@
             data_component: alternative_data_component,
             products_amount: related_products | length,
             products_array: related_products,
-            product_template_path: 'snipplets/grid/item.tpl',
+            product_template_path: 'snipplets/product/related-product-card.tpl',
             product_template_params: {'slide_item': true},
             slider_controls_position: 'bottom',
             slider_controls_container: true,

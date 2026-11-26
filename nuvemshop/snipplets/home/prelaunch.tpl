@@ -34,6 +34,18 @@
                 <p class="sulmina-prelaunch__description">{{ prelaunch_description }}</p>
                 <p class="sulmina-prelaunch__collection">{{ prelaunch_collection }}</p>
 
+                <section class="sulmina-prelaunch__launch" aria-labelledby="sulmina-prelaunch-launch-title" data-countdown-target="2026-11-26T19:00:00-03:00">
+                    <h2 id="sulmina-prelaunch-launch-title">O lançamento está chegando!</h2>
+                    <p class="sulmina-prelaunch__launch-date">A loja SULMINA abre em <strong>26 de novembro de 2026, às 19h</strong>.</p>
+                    <div class="sulmina-prelaunch__countdown" data-launch-countdown role="timer" aria-label="Contagem regressiva para o lançamento">
+                        <span><strong data-countdown-days>00</strong><small>dias</small></span>
+                        <span><strong data-countdown-hours>00</strong><small>horas</small></span>
+                        <span><strong data-countdown-minutes>00</strong><small>minutos</small></span>
+                        <span><strong data-countdown-seconds>00</strong><small>segundos</small></span>
+                    </div>
+                    <p class="sulmina-prelaunch__countdown-ended" data-countdown-ended hidden>A loja já abriu. Vem conhecer nossos cafés!</p>
+                </section>
+
                 <div class="sulmina-prelaunch__signup">
                     <h2 class="sulmina-prelaunch__signup-title"{% if contact and contact.type == 'newsletter' and contact.success %} hidden{% endif %}>{{ prelaunch_signup_title }}</h2>
                     <form method="post" action="/winnie-pooh" onsubmit="this.setAttribute('action', '');" data-store="newsletter-form"{% if contact and contact.type == 'newsletter' and contact.success %} hidden{% endif %}>
@@ -92,3 +104,57 @@
 
     </div>
 </main>
+
+<style>
+.sulmina-prelaunch-page .sulmina-prelaunch__launch { box-sizing: border-box; width: min(100%, 560px); margin: 24px auto 0; padding: 22px clamp(16px, 3vw, 28px) 24px; border: 1px solid rgba(244,238,225,.55); border-radius: 10px; background: rgba(92,110,74,.78); background: color-mix(in srgb, var(--sul-verde) 78%, transparent); box-shadow: 0 10px 30px rgba(0,0,0,.2); backdrop-filter: blur(2px); color: var(--sul-creme); }
+.sulmina-prelaunch-page .sulmina-prelaunch__launch h2 { margin: 0 0 10px; color: var(--sul-creme); font-family: var(--sul-serif); font-size: clamp(25px, 3vw, 32px); line-height: 1.1; }
+.sulmina-prelaunch-page .sulmina-prelaunch__launch-date,
+.sulmina-prelaunch-page .sulmina-prelaunch__launch-date strong { margin: 0; color: var(--sul-creme); font-size: 16px; line-height: 1.45; }
+.sulmina-prelaunch-page .sulmina-prelaunch__countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 20px auto 0; }
+.sulmina-prelaunch-page .sulmina-prelaunch__countdown span { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 5px; padding: 10px 6px; border: 1px solid rgba(244,238,225,.28); border-radius: 7px; background: rgba(244,238,225,.12); text-align: center; }
+.sulmina-prelaunch-page .sulmina-prelaunch__countdown strong { color: var(--sul-creme); font-size: clamp(22px, 3vw, 28px); font-variant-numeric: tabular-nums; line-height: 1; }
+.sulmina-prelaunch-page .sulmina-prelaunch__countdown small { margin: 0; color: var(--sul-creme); font-size: 11px; line-height: 1.2; }
+.sulmina-prelaunch-page .sulmina-prelaunch__countdown-ended { margin: 12px 0 0; color: var(--sul-creme); font-family: var(--sul-serif); font-size: 18px; }
+@media (max-width: 760px) {
+    .sulmina-prelaunch-page .sulmina-prelaunch__launch { margin-top: 16px; }
+    .sulmina-prelaunch-page .sulmina-prelaunch__countdown { gap: 6px; }
+    .sulmina-prelaunch-page .sulmina-prelaunch__countdown span { padding: 9px 4px; }
+    .sulmina-prelaunch-page .sulmina-prelaunch__countdown strong { font-size: 21px; }
+    .sulmina-prelaunch-page .sulmina-prelaunch__countdown small { font-size: 10px; }
+}
+</style>
+
+<script>
+(function () {
+    var launch = document.querySelector('[data-countdown-target]');
+    if (!launch) return;
+
+    var target = new Date(launch.getAttribute('data-countdown-target')).getTime();
+    var countdown = launch.querySelector('[data-launch-countdown]');
+    var ended = launch.querySelector('[data-countdown-ended]');
+    var fields = {
+        days: launch.querySelector('[data-countdown-days]'),
+        hours: launch.querySelector('[data-countdown-hours]'),
+        minutes: launch.querySelector('[data-countdown-minutes]'),
+        seconds: launch.querySelector('[data-countdown-seconds]')
+    };
+
+    function updateCountdown() {
+        var remaining = Math.max(0, target - Date.now());
+        var seconds = Math.floor(remaining / 1000);
+        fields.days.textContent = String(Math.floor(seconds / 86400));
+        fields.hours.textContent = String(Math.floor((seconds % 86400) / 3600)).padStart(2, '0');
+        fields.minutes.textContent = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        fields.seconds.textContent = String(seconds % 60).padStart(2, '0');
+
+        if (remaining === 0) {
+            countdown.hidden = true;
+            ended.hidden = false;
+            clearInterval(interval);
+        }
+    }
+
+    updateCountdown();
+    var interval = window.setInterval(updateCountdown, 1000);
+}());
+</script>
