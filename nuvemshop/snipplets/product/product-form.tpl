@@ -34,9 +34,6 @@
             {% if product.variations %}
                 {% include "snipplets/product/product-variants.tpl" with {show_size_guide: show_size_guide} %}
             {% endif %}
-            {% if show_product_quantity %}
-                {% include "snipplets/product/product-quantity.tpl" %}
-            {% endif %}
         </div>
 
     {# Product price #}
@@ -235,6 +232,14 @@
         {{ component('nubesdk-slot', { type: "before_product_detail_add_to_cart" }) }}
 
         <div class="row {% if settings.product_stock %}mb-3{% else %}mb-4{% endif %}">
+            {% if template == 'product' and not home_main_product and not product.isSubscribable() %}
+                <div class="sulmina-product-purchase-controls">
+            {% endif %}
+
+            {% if show_product_quantity %}
+                {% include "snipplets/product/product-quantity.tpl" %}
+            {% endif %}
+
             {{ component('subscriptions/subscription-selector', {
                 allow_subscription_only: is_subscription_only_product,
                 subscription_only_container: 'p-3',
@@ -296,6 +301,10 @@
 
             </div>
 
+            {% if template == 'product' and not home_main_product and not product.isSubscribable() %}
+                </div>
+            {% endif %}
+
             {% if settings.ajax_cart %}
                 <div class="col-12">
                     <div class="js-added-to-cart-product-message font-small mt-2 mb-3" style="display: none;">
@@ -306,61 +315,10 @@
                 </div>
             {% endif %}
 
-            {# Free shipping visibility message #}
-
-            {% set free_shipping_minimum_label_changes_visibility = has_free_shipping and cart.free_shipping.min_price_free_shipping.min_price_raw > 0 %}
-
-            {% set include_product_free_shipping_min_wording = cart.free_shipping.min_price_free_shipping.min_price_raw > 0 %}
-
-            {% if not product.is_non_shippable and show_product_quantity and has_free_shipping and not has_product_free_shipping and is_full_free_shipping %}
-
-                {# Free shipping add to cart message #}
-
-                {% if include_product_free_shipping_min_wording %}
-
-                    {% include "snipplets/shipping/shipping-free-rest.tpl" with {'product_detail': true} %}
-
-                {% endif %}
-
-                {# Free shipping achieved message #}
-
-                <div class="js-product-form-free-shipping-message {% if free_shipping_minimum_label_changes_visibility %}js-free-shipping-message{% endif %} text-accent font-small mx-3 my-3" {% if not cart.free_shipping.cart_has_free_shipping %}style="display: none;"{% endif %}>
-                    {{ "¡Genial! Tenés envío gratis" | translate }}
-                </div>
-
-            {% endif %}
         </div>
 
         {{ component('nubesdk-slot', { type: "after_product_detail_add_to_cart" }) }}
 
-        {% if template == 'product' %}
-
-            {% set show_product_fulfillment = settings.shipping_calculator_product_page and (store.has_shipping or store.branches) and not product.free_shipping and not product.is_non_shippable %}
-
-            {{ component('nubesdk-slot', { type: "before_product_detail_shipping_options" }) }}
-
-            {% if show_product_fulfillment %}
-                <div class="sulmina-product-fulfillment mb-4 {% if store.branches %}pb-2{% endif %}">
-
-                    {# Shipping calculator and branch link #}
-
-                    <div id="product-shipping-container" class="product-shipping-calculator list" {% if not product.display_price or not product.has_stock %}style="display:none;"{% endif %} data-shipping-url="{{ store.shipping_calculator_url }}">
-                        {% if store.has_shipping %}
-                            {% include "snipplets/shipping/shipping-calculator.tpl" with {'shipping_calculator_variant' : product.selected_or_first_available_variant, 'product_detail': true} %}
-                        {% endif %}
-                    </div>
-
-                    {% if store.branches %}
-                        {# Link for branches #}
-                        {% include "snipplets/shipping/branches.tpl" with {'product_detail': true} %}
-                    {% endif %}
-                </div>
-
-            {% endif %}
-
-            {{ component('nubesdk-slot', { type: "after_product_detail_shipping_options" }) }}
-
-        {% endif %}
      </form>
 </div>
 
