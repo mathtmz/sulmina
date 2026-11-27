@@ -1727,9 +1727,9 @@ a { color: inherit; }
 .sulmina-product-page .sulmina-product-promotions .btn-link { display: none; }
 .sulmina-product-page .sulmina-product-form > .row { order: 3; grid-column: 1 / -1; display: contents; margin: 0; }
 .sulmina-product-page .sulmina-product-form > .row > [class*="col-"] { padding-right: 0; padding-left: 0; }
-.sulmina-product-page .sulmina-product-purchase-controls { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; align-items: stretch; align-self: start; gap: 12px; min-width: 0; }
+.sulmina-product-page .sulmina-product-purchase-controls { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; align-items: stretch; align-self: start; gap: 4px; min-width: 0; }
 .sulmina-product-page .sulmina-product-purchase-controls > .js-product-quantity-container,
-.sulmina-product-page .sulmina-product-purchase-controls > .js-buy-button-container { flex: 0 0 100%; width: 100%; max-width: 100%; margin: 0 !important; padding: 0 !important; }
+.sulmina-product-page .sulmina-product-purchase-controls > .js-buy-button-container { flex: 0 0 auto; width: 100%; max-width: 100%; margin: 0 !important; padding: 0 !important; }
 .sulmina-product-page .sulmina-product-purchase-controls > .js-product-quantity-container label { margin-bottom: 6px; text-align: left; }
 .sulmina-product-page .sulmina-product-form > .row .js-quantity-input { height: 37px; min-height: 37px; }
 .sulmina-shipping-progress .js-ship-free-rest { margin-bottom: 6px !important; }
