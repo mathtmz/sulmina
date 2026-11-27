@@ -205,8 +205,8 @@
     <section class="sulmina-announcement" data-announcement-carousel role="region" aria-label="Promoções da loja" aria-roledescription="carrossel">
         <button class="sulmina-announcement__control sulmina-announcement__control--previous" type="button" data-announcement-previous aria-label="Mensagem anterior">‹</button>
         <div class="sulmina-announcement__viewport">
-            <p class="sulmina-announcement__message" data-announcement-message>15% de desconto a partir de 3 unidades e frete grátis em pedidos acima de R$ 150.</p>
-            <p class="sulmina-announcement__message" data-announcement-message hidden>Promoção de lançamento: 10% de desconto em todo o site.</p>
+            <p class="sulmina-announcement__message" data-announcement-message>Promoção de lançamento: 15% de desconto a partir de 3 unidades e frete grátis em pedidos acima de R$ 150.</p>
+            <p class="sulmina-announcement__message" data-announcement-message hidden>10% de desconto em todo o site.</p>
         </div>
         <button class="sulmina-announcement__control sulmina-announcement__control--next" type="button" data-announcement-next aria-label="Próxima mensagem">›</button>
         <span class="sulmina-announcement__status" data-announcement-status aria-live="polite" aria-atomic="true">Mensagem 1 de 2</span>
