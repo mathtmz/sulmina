@@ -1724,7 +1724,6 @@ a { color: inherit; }
 .sulmina-product-page .sulmina-product-promotions .table td { padding: 9px 10px; }
 .sulmina-product-page .sulmina-product-promotions .btn-link { display: none; }
 .sulmina-product-page .sulmina-product-form > .row { order: 3; grid-column: 1 / -1; display: contents; margin: 0; }
-.sulmina-product-page .sulmina-product-fulfillment { order: 4; grid-column: 1 / -1; margin: 12px 0 0 !important; }
 .sulmina-product-page .sulmina-product-form > .row > [class*="col-"] { padding-right: 0; padding-left: 0; }
 .sulmina-product-page .sulmina-product-form > .row .js-product-quantity-container { position: static; grid-column: 2; grid-row: 1; align-self: end; width: 100%; max-width: 100%; margin: 0; padding: 0 !important; }
 .sulmina-product-page .sulmina-product-form > .row .js-product-quantity-container label { margin-bottom: 6px; }
@@ -1734,7 +1733,6 @@ a { color: inherit; }
 .sulmina-shipping-progress .js-ship-free-rest { margin-bottom: 6px !important; }
 .sulmina-shipping-progress__offer { margin: 0; color: var(--sul-terracota); font-size: 12px; font-weight: 600; line-height: 1.4; }
 .sulmina-product-page .js-prod-submit-form { min-height: 54px; border-radius: 3px; font-size: 16px; font-weight: 600; letter-spacing: .01em; }
-.sulmina-product-page .product-shipping-calculator { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--sul-border); }
 @media (max-width: 760px) {
   .sulmina-product-page [data-store^="product-info-"] { padding: 8px 18px 0; }
   .sulmina-product-page .sulmina-product-breadcrumb { margin: 0 18px 8px; }

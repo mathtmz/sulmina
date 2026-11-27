@@ -312,7 +312,7 @@
             {% set include_product_free_shipping_min_wording = cart.free_shipping.min_price_free_shipping.min_price_raw > 0 %}
 
             {% if template == 'product' and not product.is_non_shippable and show_product_quantity and has_free_shipping and not has_product_free_shipping and include_product_free_shipping_min_wording %}
-                {% include "snipplets/shipping/shipping-free-rest.tpl" with {'product_detail': true} %}
+                {% include "snipplets/shipping/shipping-free-rest.tpl" %}
             {% endif %}
         </div>
 
