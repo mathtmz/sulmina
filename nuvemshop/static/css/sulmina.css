@@ -684,7 +684,7 @@ a { color: inherit; }
   display: grid;
   grid-template-columns: 36px minmax(0, 1fr) 36px;
   align-items: center;
-  min-height: 44px;
+  min-height: 88px;
   padding: 5px 16px;
   background: var(--sul-verde);
   color: var(--sul-creme);
@@ -695,7 +695,7 @@ a { color: inherit; }
   grid-area: 1 / 1;
   margin: 0;
   color: inherit;
-  font-size: 13px;
+  font-size: 19.5px;
   font-weight: 600;
   line-height: 1.35;
 }
@@ -720,8 +720,8 @@ a { color: inherit; }
 .sulmina-announcement__control:focus-visible { outline: 2px solid var(--sul-creme); outline-offset: 2px; }
 .sulmina-announcement__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 @media (max-width: 600px) {
-  .sulmina-announcement { grid-template-columns: 28px minmax(0, 1fr) 28px; min-height: 48px; padding: 5px 8px; }
-  .sulmina-announcement__message { font-size: 12px; }
+  .sulmina-announcement { grid-template-columns: 28px minmax(0, 1fr) 28px; min-height: 96px; padding: 10px 8px; }
+  .sulmina-announcement__message { font-size: 18px; }
   .sulmina-announcement__control { width: 26px; height: 26px; font-size: 20px; }
 }
 
