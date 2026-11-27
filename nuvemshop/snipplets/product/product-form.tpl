@@ -232,6 +232,10 @@
         {{ component('nubesdk-slot', { type: "before_product_detail_add_to_cart" }) }}
 
         <div class="row {% if settings.product_stock %}mb-3{% else %}mb-4{% endif %}">
+            {% if template == 'product' and not home_main_product and not product.isSubscribable() %}
+                <div class="sulmina-product-purchase-controls">
+            {% endif %}
+
             {% if show_product_quantity %}
                 {% include "snipplets/product/product-quantity.tpl" %}
             {% endif %}
@@ -296,6 +300,10 @@
                 {% include 'snipplets/placeholders/button-placeholder.tpl' with {custom_class: "btn-big", adding_text: adding_text} %}
 
             </div>
+
+            {% if template == 'product' and not home_main_product and not product.isSubscribable() %}
+                </div>
+            {% endif %}
 
             {% if settings.ajax_cart %}
                 <div class="col-12">
